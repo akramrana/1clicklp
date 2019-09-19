@@ -1,6 +1,7 @@
 <?php
 /* @var $this \yii\web\View */
 /* @var $content string */
+
 use yii\helpers\Html;
 use app\assets\AppAsset;
 use app\assets\ThemeAsset;
@@ -18,6 +19,10 @@ ThemeAsset::register($this);
         <?php $this->registerCsrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+        <script type="application/javascript">
+            var baseUrl = '<?php echo yii\helpers\BaseUrl::home(); ?>';
+            var _csrf = '<?php echo Yii::$app->request->getCsrfToken() ?>';
+        </script>
     </head>
     <body class="hold-transition skin-green sidebar-mini">
         <?php $this->beginBody() ?>
@@ -26,7 +31,7 @@ ThemeAsset::register($this);
             <?php
             echo $this->render('header');
             echo $this->render('left');
-            echo $this->render('content',[
+            echo $this->render('content', [
                 'content' => $content
             ]);
             echo $this->render('footer');

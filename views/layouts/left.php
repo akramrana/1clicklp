@@ -69,7 +69,7 @@ use yii\widgets\Menu;
                 ],
                 [
                     'label' => '<i class="fa fa-th"></i> <span>Categories</span>',
-                    'url' => '#',
+                    'url' => ['/category/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-clone"></i> <span>Templates</span>',

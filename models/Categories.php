@@ -47,7 +47,7 @@ class Categories extends \yii\db\ActiveRecord
     {
         return [
             'category_id' => 'Category ID',
-            'name_en' => 'Name En',
+            'name_en' => 'Name',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'is_active' => 'Is Active',
