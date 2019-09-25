@@ -32,6 +32,7 @@ use Yii;
  */
 class Clients extends \yii\db\ActiveRecord
 {
+    public $password_hash,$confirm_password;
     /**
      * {@inheritdoc}
      */
@@ -53,6 +54,13 @@ class Clients extends \yii\db\ActiveRecord
             [['first_name', 'last_name', 'email', 'phone'], 'string', 'max' => 50],
             [['password'], 'string', 'max' => 128],
             [['verification_code'], 'string', 'max' => 16],
+            ['email','email'],
+            ['email','unique'],
+            [['password_hash','confirm_password'], 'required', 'on' => 'create'],
+            [['password_hash'],'string','min'=>6],
+            ['password_hash', 'match', 'pattern' => '$\S*(?=\S{6,})(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', 'message' => 'Password should contain at least one upper case letter, one number and one special character'],
+            ['confirm_password', 'compare', 'compareAttribute' => 'password_hash','message' => Yii::t('yii', 'Confirm Password must be equal to "Password"')],
+            ['phone', 'match', 'pattern' => '/^[0-9-+]+$/', 'message' => Yii::t('yii', 'Your phone can only contain numeric characters with +/-')],
         ];
     }
 
@@ -68,16 +76,18 @@ class Clients extends \yii\db\ActiveRecord
             'email' => 'Email',
             'phone' => 'Phone',
             'password' => 'Password',
-            'is_social_register' => 'Is Social Register',
-            'is_phone_verified' => 'Is Phone Verified',
-            'is_email_verified' => 'Is Email Verified',
+            'is_social_register' => 'Social Register?',
+            'is_phone_verified' => 'Phone Verified?',
+            'is_email_verified' => 'Email Verified?',
             'verification_code' => 'Verification Code',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'newsletter_subscribed' => 'Newsletter Subscribed',
             'type' => 'Type',
-            'is_active' => 'Is Active',
+            'is_active' => 'Status',
             'is_deleted' => 'Is Deleted',
+            'password_hash' => Yii::t('app', 'Password'),
+            'confirm_password' => Yii::t('app', 'Confirm Password'),
         ];
     }
 

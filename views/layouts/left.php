@@ -28,7 +28,7 @@ use yii\widgets\Menu;
                 ],
                 [
                     'label' => '<i class="fa fa-dashboard"></i> <span>Dashboard</span>',
-                    'url' => ['/dashboard/index'],
+                    'url' => ['/site/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-users"></i> <span>Clients</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
@@ -36,7 +36,7 @@ use yii\widgets\Menu;
                     'items' => [
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Client List',
-                            'url' => '#',
+                            'url' => ['client/index'],
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Campaigns',
