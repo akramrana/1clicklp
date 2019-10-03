@@ -82,7 +82,7 @@ class Payments extends \yii\db\ActiveRecord
             'udf5' => 'Udf5',
             'status' => 'Status',
             'type' => 'Type',
-            'type_id' => 'Type ID',
+            'type_id' => 'Type Name',
         ];
     }
 }
