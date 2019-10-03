@@ -73,27 +73,27 @@ use yii\widgets\Menu;
                 ],
                 [
                     'label' => '<i class="fa fa-clone"></i> <span>Templates</span>',
-                    'url' => '#',
+                    'url' => ['/template/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-laptop"></i> <span>Packages</span>',
-                    'url' => '#',
+                    'url' => ['/package/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-book"></i> <span>CMS</span>',
-                    'url' => '#',
+                    'url' => ['/cms/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-question-circle"></i> <span>FAQ</span>',
-                    'url' => '#',
+                    'url' => ['/faq/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-envelope"></i> <span>Feedback</span>',
-                    'url' => '#',
+                    'url' => ['/feedback/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-credit-card"></i> <span>Payments</span>',
-                    'url' => '#',
+                    'url' => ['/payment/index'],
                 ],
                 [
                     'label' => '<i class="fa fa-users"></i> <span>Admins</span>',
