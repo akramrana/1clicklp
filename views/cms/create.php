@@ -9,12 +9,16 @@ $this->title = 'Create Cms';
 $this->params['breadcrumbs'][] = ['label' => 'Cms', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cms-create">
+<div class="box box-primary">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="box-body">
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+        <?=
+        $this->render('_form', [
+            'model' => $model,
+        ])
+        ?>
+
+    </div>
 
 </div>

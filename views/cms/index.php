@@ -10,30 +10,30 @@ use yii\grid\GridView;
 $this->title = 'Cms';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cms-index">
+<div class="box box-primary">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="box-body">
 
-    <p>
-        <?= Html::a('Create Cms', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <p>
+            <?= Html::a('Create Cms', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'title_en',
+                'content_en:ntext',
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]);
+        ?>
 
-            'cms_id',
-            'title_en',
-            'content_en:ntext',
-            'is_deleted',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    </div>
 
 </div>

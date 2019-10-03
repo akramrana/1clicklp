@@ -42,8 +42,8 @@ class Cms extends \yii\db\ActiveRecord
     {
         return [
             'cms_id' => 'Cms ID',
-            'title_en' => 'Title En',
-            'content_en' => 'Content En',
+            'title_en' => 'Title',
+            'content_en' => 'Content',
             'is_deleted' => 'Is Deleted',
         ];
     }

@@ -46,6 +46,7 @@ class CmsSearch extends Cms
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['cms_id' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -59,7 +60,7 @@ class CmsSearch extends Cms
         // grid filtering conditions
         $query->andFilterWhere([
             'cms_id' => $this->cms_id,
-            'is_deleted' => $this->is_deleted,
+            'is_deleted' => 0,
         ]);
 
         $query->andFilterWhere(['like', 'title_en', $this->title_en])
