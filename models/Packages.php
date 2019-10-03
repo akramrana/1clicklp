@@ -52,11 +52,11 @@ class Packages extends \yii\db\ActiveRecord
     {
         return [
             'package_id' => 'Package ID',
-            'name_en' => 'Name En',
-            'description_en' => 'Description En',
+            'name_en' => 'Name',
+            'description_en' => 'Description',
             'price' => 'Price',
             'max_templates' => 'Max Templates',
-            'validity' => 'Validity',
+            'validity' => 'Validity(in days)',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'is_active' => 'Is Active',

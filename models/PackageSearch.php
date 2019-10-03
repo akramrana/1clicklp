@@ -47,6 +47,7 @@ class PackageSearch extends Packages
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['package_id' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -66,7 +67,7 @@ class PackageSearch extends Packages
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'is_active' => $this->is_active,
-            'is_deleted' => $this->is_deleted,
+            'is_deleted' => 0,
         ]);
 
         $query->andFilterWhere(['like', 'name_en', $this->name_en])
