@@ -10,29 +10,30 @@ use yii\grid\GridView;
 $this->title = 'Faqs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="faq-index">
+<div class="box box-primary">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="box-body">
 
-    <p>
-        <?= Html::a('Create Faq', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <p>
+            <?= Html::a('Create Faq', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'question_en:ntext',
+                'answer_en:ntext',
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]);
+        ?>
 
-            'faq_id',
-            'question_en:ntext',
-            'answer_en:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    </div>
 
 </div>

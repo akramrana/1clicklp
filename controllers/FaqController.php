@@ -67,7 +67,8 @@ class FaqController extends Controller
         $model = new Faq();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->faq_id]);
+            Yii::$app->session->setFlash('success', 'FAQ successfully added');
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -87,7 +88,8 @@ class FaqController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->faq_id]);
+            Yii::$app->session->setFlash('success', 'FAQ successfully updated');
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -106,6 +108,7 @@ class FaqController extends Controller
     {
         $this->findModel($id)->delete();
 
+        Yii::$app->session->setFlash('success', 'FAQ successfully deleted');
         return $this->redirect(['index']);
     }
 

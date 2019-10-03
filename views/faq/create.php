@@ -9,12 +9,16 @@ $this->title = 'Create Faq';
 $this->params['breadcrumbs'][] = ['label' => 'Faqs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="faq-create">
+<div class="box box-primary">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="box-body">
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+        <?=
+        $this->render('_form', [
+            'model' => $model,
+        ])
+        ?>
+
+    </div>
 
 </div>

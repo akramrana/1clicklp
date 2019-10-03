@@ -39,8 +39,8 @@ class Faq extends \yii\db\ActiveRecord
     {
         return [
             'faq_id' => 'Faq ID',
-            'question_en' => 'Question En',
-            'answer_en' => 'Answer En',
+            'question_en' => 'Question',
+            'answer_en' => 'Answer',
         ];
     }
 }

@@ -46,6 +46,7 @@ class FaqSearch extends Faq
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['faq_id' => SORT_DESC]],
         ]);
 
         $this->load($params);
