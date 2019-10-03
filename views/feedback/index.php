@@ -10,34 +10,45 @@ use yii\grid\GridView;
 $this->title = 'Feedbacks';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="feedback-index">
+<div class="box box-primary">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="box-body">
 
-    <p>
-        <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'name',
+                'email:email',
+                'phone',
+                'subject',
+                'message:ntext',
+                [
+                    'label' => 'Status',
+                    'attribute' => 'status',
+                    'format' => 'raw',
+                    'value' => function ($model, $url) {
+                        return '<div class="onoffswitch">'
+                                . Html::checkbox('onoffswitch', $model->status, [
+                                    'class' => "onoffswitch-checkbox",
+                                    'id' => "myonoffswitch" . $model->feedback_id,
+                                    'onclick' => 'app.changeStatus("feedback/change-status",this,' . $model->feedback_id . ')',
+                                ])
+                                . '<label class="onoffswitch-label" for="myonoffswitch' . $model->feedback_id . '"></label></div>';
+                    },
+                    'filter' => Html::activeDropDownList($searchModel, 'status', [1 => 'Contacted', 0 => 'Not Contacted'], ['class' => 'form-control', 'prompt' => 'Filter']),
+                ],
+                //'is_deleted',
+                ['class' => 'yii\grid\ActionColumn','template' => '{delete}'],
+            ],
+        ]);
+        ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'feedback_id',
-            'name',
-            'email:email',
-            'phone',
-            'subject',
-            //'message:ntext',
-            //'status',
-            //'is_deleted',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    </div>
 
 </div>

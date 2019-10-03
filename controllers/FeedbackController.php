@@ -45,57 +45,6 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Displays a single Feedback model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Feedback model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Feedback();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->feedback_id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Feedback model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->feedback_id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
      * Deletes an existing Feedback model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -104,9 +53,26 @@ class FeedbackController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        $model->is_deleted = 1;
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', 'Feedback successfully deleted');
+            return $this->redirect(['index']);
+        }
+    }
+    
+    public function actionChangeStatus($id) {
+        $model = $this->findModel($id);
+        if ($model->status == 0) {
+            $model->status = 1;
+        } else {
+            $model->status = 0;
+        }
+        if ($model->validate() && $model->save()) {
+            return '1';
+        } else {
+            return json_encode($model->errors);
+        }
     }
 
     /**
