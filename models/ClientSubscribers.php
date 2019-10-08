@@ -60,8 +60,8 @@ class ClientSubscribers extends \yii\db\ActiveRecord
     {
         return [
             'client_subscriber_id' => 'Client Subscriber ID',
-            'client_id' => 'Client ID',
-            'client_template_id' => 'Client Template ID',
+            'client_id' => 'Client',
+            'client_template_id' => 'Client Template',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'email' => 'Email',
@@ -71,7 +71,7 @@ class ClientSubscribers extends \yii\db\ActiveRecord
             'location' => 'Location',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'is_active' => 'Is Active',
+            'is_active' => 'Status',
             'is_deleted' => 'Is Deleted',
         ];
     }

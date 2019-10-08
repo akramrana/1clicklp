@@ -56,11 +56,11 @@ use yii\widgets\Menu;
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Client Subscribers',
-                            'url' => '#',
+                            'url' => ['client-subscriber/index'],
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Client Template',
-                            'url' => '#',
+                            'url' => ['client-template/index'],
                         ],
                     ],
                     'options' => [

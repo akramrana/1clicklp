@@ -47,4 +47,13 @@ class AppHelper
         });
         return $list;
     }
+    
+    static function getAllTemplates()
+    {
+        $model = \app\models\Templates::find()
+                ->where(['is_deleted' => 0])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'template_id', 'title_en');
+        return $list;
+    }
 }

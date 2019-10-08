@@ -42,7 +42,7 @@ class ClientTemplates extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['template_id', 'client_id', 'name_en', 'raw_html_content', 'publish_url', 'created_at'], 'required'],
+            [['template_id', 'client_id', 'name_en', 'raw_html_content', 'created_at'], 'required'],
             [['template_id', 'client_id', 'is_published', 'is_active', 'is_deleted'], 'integer'],
             [['page_title_en', 'raw_html_content'], 'string'],
             [['created_at', 'updated_at', 'published_at'], 'safe'],
@@ -59,17 +59,17 @@ class ClientTemplates extends \yii\db\ActiveRecord
     {
         return [
             'client_template_id' => 'Client Template ID',
-            'template_id' => 'Template ID',
-            'client_id' => 'Client ID',
-            'name_en' => 'Name En',
-            'page_title_en' => 'Page Title En',
+            'template_id' => 'Template',
+            'client_id' => 'Client',
+            'name_en' => 'Name',
+            'page_title_en' => 'Page Title',
             'raw_html_content' => 'Raw Html Content',
             'publish_url' => 'Publish Url',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'published_at' => 'Published At',
             'is_published' => 'Is Published',
-            'is_active' => 'Is Active',
+            'is_active' => 'Status',
             'is_deleted' => 'Is Deleted',
         ];
     }
