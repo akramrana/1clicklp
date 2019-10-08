@@ -36,4 +36,15 @@ class AppHelper
         $list = ArrayHelper::map($model, 'category_id', 'name_en');
         return $list;
     }
+    
+    static function getAllClients()
+    {
+        $model = \app\models\Clients::find()
+                ->where(['is_deleted' => 0])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'client_id', function($model){
+            return $model->first_name.' '.$model->last_name;
+        });
+        return $list;
+    }
 }

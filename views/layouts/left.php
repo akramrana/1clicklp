@@ -44,7 +44,7 @@ use yii\widgets\Menu;
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Campaign Types',
-                            'url' => '#',
+                            'url' => ['client-campaign-type/index'],
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Campaign Users',

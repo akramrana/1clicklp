@@ -37,7 +37,7 @@ class ClientCampaignTypes extends \yii\db\ActiveRecord
             [['client_id', 'name_en', 'created_at', 'is_active', 'is_deleted'], 'required'],
             [['client_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name_en', 'is_active', 'is_deleted'], 'string', 'max' => 50],
+            [['name_en'], 'string', 'max' => 50],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'client_id']],
         ];
     }
@@ -49,11 +49,11 @@ class ClientCampaignTypes extends \yii\db\ActiveRecord
     {
         return [
             'client_campaign_type_id' => 'Client Campaign Type ID',
-            'client_id' => 'Client ID',
-            'name_en' => 'Name En',
+            'client_id' => 'Client',
+            'name_en' => 'Name',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'is_active' => 'Is Active',
+            'is_active' => 'Status',
             'is_deleted' => 'Is Deleted',
         ];
     }

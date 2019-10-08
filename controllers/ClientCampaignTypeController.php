@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Clients;
-use app\models\ClientSearch;
+use app\models\ClientCampaignTypes;
+use app\models\ClientCampaignTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ClientController implements the CRUD actions for Clients model.
+ * ClientCampaignTypeController implements the CRUD actions for ClientCampaignTypes model.
  */
-class ClientController extends Controller
+class ClientCampaignTypeController extends Controller
 {
 
     /**
@@ -30,11 +30,11 @@ class ClientController extends Controller
     }
 
     /**
-     * Lists all Clients models.
+     * Lists all ClientCampaignTypes models.
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new ClientSearch();
+        $searchModel = new ClientCampaignTypeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -44,7 +44,7 @@ class ClientController extends Controller
     }
 
     /**
-     * Displays a single Clients model.
+     * Displays a single ClientCampaignTypes model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -56,30 +56,21 @@ class ClientController extends Controller
     }
 
     /**
-     * Creates a new Clients model.
+     * Creates a new ClientCampaignTypes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new Clients();
-        $model->scenario = 'create';
+        $model = new ClientCampaignTypes();
         $model->created_at = date('Y-m-d H:i:s');
         $model->updated_at = date('Y-m-d H:i:s');
-        $model->is_phone_verified = 1;
-        $model->is_email_verified = 1;
-        if ($model->load(Yii::$app->request->post())) {
-            $request = Yii::$app->request->bodyParams;
-            $password = $request['Clients']['password_hash'];
-            $model->password = Yii::$app->security->generatePasswordHash($password);
-            $model->is_active = 1;
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Client successfully added');
-                return $this->redirect(['index']);
-            } else {
-                return $this->render('create', [
-                            'model' => $model,
-                ]);
-            }
+        $model->is_active = 0;
+        $model->is_deleted = 0;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Campaign type successfully added');
+            return $this->redirect(['index']);
+        }else{
+            die(json_encode($model->errors));
         }
 
         return $this->render('create', [
@@ -88,7 +79,7 @@ class ClientController extends Controller
     }
 
     /**
-     * Updates an existing Clients model.
+     * Updates an existing ClientCampaignTypes model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -97,19 +88,9 @@ class ClientController extends Controller
     public function actionUpdate($id) {
         $model = $this->findModel($id);
         $model->updated_at = date('Y-m-d H:i:s');
-        if ($model->load(Yii::$app->request->post())) {
-            $request = Yii::$app->request->bodyParams;
-            if (isset($request['Clients']['password_hash']) && $request['Clients']['password_hash'] != "") {
-                $model->password = Yii::$app->getSecurity()->generatePasswordHash($request['Clients']['password_hash']);
-            }
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Client successfully updated');
-                return $this->redirect(['index']);
-            } else {
-                return $this->render('update', [
-                            'model' => $model,
-                ]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Campaign type successfully updated');
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -118,7 +99,7 @@ class ClientController extends Controller
     }
 
     /**
-     * Deletes an existing Clients model.
+     * Deletes an existing ClientCampaignTypes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -129,11 +110,11 @@ class ClientController extends Controller
         $model->updated_at = date('Y-m-d H:i:s');
         $model->is_deleted = 1;
         if ($model->save()) {
-            Yii::$app->session->setFlash('success', 'Client successfully deleted');
+            Yii::$app->session->setFlash('success', 'Campaign type successfully deleted');
             return $this->redirect(['index']);
         }
     }
-
+    
     public function actionActivate($id) {
         $model = $this->findModel($id);
         if ($model->is_active == 0) {
@@ -147,15 +128,16 @@ class ClientController extends Controller
             return json_encode($model->errors);
         }
     }
+
     /**
-     * Finds the Clients model based on its primary key value.
+     * Finds the ClientCampaignTypes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Clients the loaded model
+     * @return ClientCampaignTypes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = Clients::findOne($id)) !== null) {
+        if (($model = ClientCampaignTypes::findOne($id)) !== null) {
             return $model;
         }
 
