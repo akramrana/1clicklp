@@ -48,6 +48,8 @@ class ClientSubscribers extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['first_name', 'last_name', 'ip_address'], 'string', 'max' => 50],
             [['email', 'phone', 'location'], 'string', 'max' => 128],
+            ['email','email'],
+            ['phone', 'match', 'pattern' => '/^[0-9-+]+$/', 'message' => Yii::t('yii', 'Your phone can only contain numeric characters with +/-')],
             [['client_template_id'], 'exist', 'skipOnError' => true, 'targetClass' => ClientTemplates::className(), 'targetAttribute' => ['client_template_id' => 'client_template_id']],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'client_id']],
         ];

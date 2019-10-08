@@ -14,11 +14,11 @@ use yii\filters\VerbFilter;
  */
 class ClientSubscriberController extends Controller
 {
+
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +33,13 @@ class ClientSubscriberController extends Controller
      * Lists all ClientSubscribers models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new ClientSubscriberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -50,10 +49,9 @@ class ClientSubscriberController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -62,16 +60,18 @@ class ClientSubscriberController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new ClientSubscribers();
-
+        $model->created_at = date('Y-m-d H:i:s');
+        $model->updated_at = date('Y-m-d H:i:s');
+        $model->ip_address = $_SERVER['REMOTE_ADDR'];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->client_subscriber_id]);
+            Yii::$app->session->setFlash('success', 'Client subscriber successfully added');
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -82,16 +82,16 @@ class ClientSubscriberController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
-
+        $model->updated_at = date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->client_subscriber_id]);
+            Yii::$app->session->setFlash('success', 'Client subscriber successfully updated');
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -102,11 +102,41 @@ class ClientSubscriberController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    public function actionDelete($id) {
+        $model = $this->findModel($id);
+        $model->updated_at = date('Y-m-d H:i:s');
+        $model->is_deleted = 1;
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', 'Client subscriber successfully deleted');
+            return $this->redirect(['index']);
+        }
+    }
+    
+    public function actionActivate($id) {
+        $model = $this->findModel($id);
+        if ($model->is_active == 0) {
+            $model->is_active = 1;
+        } else {
+            $model->is_active = 0;
+        }
+        if ($model->validate() && $model->save()) {
+            return '1';
+        } else {
+            return json_encode($model->errors);
+        }
+    }
 
-        return $this->redirect(['index']);
+    public function actionGetTemplate($id) {
+        $models = \app\models\ClientTemplates::find()
+                ->where(['client_id' => $id, 'is_deleted' => 0])
+                ->all();
+        $htm = '<option value="">Please Select</option>';
+        if (!empty($models)) {
+            foreach ($models as $row) {
+                $htm .= '<option value="' . $row->client_template_id . '">' . $row->name_en . '</option>';
+            }
+        }
+        return $htm;
     }
 
     /**
@@ -116,12 +146,12 @@ class ClientSubscriberController extends Controller
      * @return ClientSubscribers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = ClientSubscribers::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

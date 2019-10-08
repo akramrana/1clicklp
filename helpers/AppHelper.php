@@ -56,4 +56,22 @@ class AppHelper
         $list = ArrayHelper::map($model, 'template_id', 'title_en');
         return $list;
     }
+    
+    static function getAllClientTemplates()
+    {
+        $model = \app\models\ClientTemplates::find()
+                ->where(['is_deleted' => 0])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'client_template_id', 'name_en');
+        return $list;
+    }
+    
+    static function getClientTemplatesById($id)
+    {
+        $model = \app\models\ClientTemplates::find()
+                ->where(['is_deleted' => 0,'client_id' => $id])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'client_template_id', 'name_en');
+        return $list;
+    }
 }

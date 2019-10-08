@@ -6,44 +6,56 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\ClientSubscribers */
 
-$this->title = $model->client_subscriber_id;
+$this->title = $model->first_name.' '.$model->last_name;
 $this->params['breadcrumbs'][] = ['label' => 'Client Subscribers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="client-subscribers-view">
+<div class="box box-primary">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="box-body">
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->client_subscriber_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->client_subscriber_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
+        <p>
+            <?= Html::a('Update', ['update', 'id' => $model->client_subscriber_id], ['class' => 'btn btn-primary']) ?>
+            <?=
+            Html::a('Delete', ['delete', 'id' => $model->client_subscriber_id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ])
+            ?>
+        </p>
+
+        <?=
+        DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                [
+                    'attribute' => 'client_id',
+                    'value' => $model->client->first_name.' '.$model->client->last_name,
+                ],
+                [
+                    'attribute' => 'client_template_id',
+                    'value' => $model->clientTemplate->name_en,
+                ],
+                'first_name',
+                'last_name',
+                'email:email',
+                'phone',
+                'message:ntext',
+                'ip_address',
+                'location',
+                'created_at',
+                'updated_at',
+                [
+                    'attribute' => 'is_active',
+                    'value' => ($model->is_active==1)?"Active":"Inactive"
+                ],
             ],
-        ]) ?>
-    </p>
+        ])
+        ?>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'client_subscriber_id',
-            'client_id',
-            'client_template_id',
-            'first_name',
-            'last_name',
-            'email:email',
-            'phone',
-            'message:ntext',
-            'ip_address',
-            'location',
-            'created_at',
-            'updated_at',
-            'is_active',
-            'is_deleted',
-        ],
-    ]) ?>
-
+    </div>
 </div>

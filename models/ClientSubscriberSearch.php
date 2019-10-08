@@ -46,6 +46,7 @@ class ClientSubscriberSearch extends ClientSubscribers
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['client_subscriber_id' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -64,7 +65,7 @@ class ClientSubscriberSearch extends ClientSubscribers
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'is_active' => $this->is_active,
-            'is_deleted' => $this->is_deleted,
+            'is_deleted' => 0,
         ]);
 
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
