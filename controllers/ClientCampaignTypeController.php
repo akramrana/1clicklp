@@ -69,8 +69,6 @@ class ClientCampaignTypeController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Campaign type successfully added');
             return $this->redirect(['index']);
-        }else{
-            die(json_encode($model->errors));
         }
 
         return $this->render('create', [
