@@ -31,5 +31,27 @@ var app = {
             }
         });
     },
+    getClientTemplate: function (id)
+    {
+        if ($.trim(id) != "") {
+            $('.global-loader').show();
+            $.ajax({
+                type: "GET",
+                url: baseUrl + 'client-subscriber/get-template',
+                data: {
+                    "id": id
+                },
+                success: function (res) {
+                    $(".global-loader").hide();
+                    $("#clientsubscribers-client_template_id").html(res);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    $(".global-loader").hide();
+                    console.log(jqXHR.responseText);
+                }
+            });
+        }
+    }
 };
 
