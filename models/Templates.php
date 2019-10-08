@@ -48,6 +48,8 @@ class Templates extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['title_en', 'sub_title_en', 'image'], 'string', 'max' => 255],
             [['folder_name'], 'string', 'max' => 50],
+            ['folder_name', 'match', 'pattern' => '/^[a-zA-Z0-9-_\/]+$/', 'message' => Yii::t('yii', 'Your folder can only contain alpha numeric characters with /')],
+            [['final_price'], 'compare', 'compareAttribute' => 'regular_price', 'operator' => '<=', 'type' => 'number'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'category_id']],
         ];
     }
@@ -59,18 +61,18 @@ class Templates extends \yii\db\ActiveRecord
     {
         return [
             'template_id' => 'Template ID',
-            'category_id' => 'Category ID',
-            'title_en' => 'Title En',
-            'sub_title_en' => 'Sub Title En',
+            'category_id' => 'Category',
+            'title_en' => 'Title',
+            'sub_title_en' => 'Sub Title',
             'image' => 'Image',
             'regular_price' => 'Regular Price',
             'final_price' => 'Final Price',
             'type' => 'Type',
             'raw_html_content' => 'Raw Html Content',
-            'folder_name' => 'Folder Name',
+            'folder_name' => 'Folder Path',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'is_active' => 'Is Active',
+            'is_active' => 'Status',
             'is_deleted' => 'Is Deleted',
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 namespace app\helpers;
-
+use yii\helpers\ArrayHelper;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -25,5 +25,15 @@ class AppHelper
     {
         $modes = self::getPaymodes();
         return $modes[$paymode];
+    }
+    
+    static function getAllCategories()
+    {
+        $model = \app\models\Categories::find()
+                ->where(['is_deleted' => 0])
+                ->orderBy(['name_en' => SORT_ASC])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'category_id', 'name_en');
+        return $list;
     }
 }

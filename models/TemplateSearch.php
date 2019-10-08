@@ -47,6 +47,7 @@ class TemplateSearch extends Templates
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['template_id' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -66,7 +67,7 @@ class TemplateSearch extends Templates
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'is_active' => $this->is_active,
-            'is_deleted' => $this->is_deleted,
+            'is_deleted' => 0,
         ]);
 
         $query->andFilterWhere(['like', 'title_en', $this->title_en])
