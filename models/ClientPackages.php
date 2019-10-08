@@ -55,8 +55,8 @@ class ClientPackages extends \yii\db\ActiveRecord
     {
         return [
             'client_package_id' => 'Client Package ID',
-            'client_id' => 'Client ID',
-            'package_id' => 'Package ID',
+            'client_id' => 'Client',
+            'package_id' => 'Package',
             'package_number' => 'Package Number',
             'purchase_date' => 'Purchase Date',
             'expiry_date' => 'Expiry Date',

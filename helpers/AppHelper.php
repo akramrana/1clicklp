@@ -74,4 +74,13 @@ class AppHelper
         $list = ArrayHelper::map($model, 'client_template_id', 'name_en');
         return $list;
     }
+    
+    static function getAllPackages()
+    {
+        $model = \app\models\Packages::find()
+                ->where(['is_deleted' => 0])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'package_id', 'name_en');
+        return $list;
+    }
 }

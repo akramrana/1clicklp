@@ -1,6 +1,11 @@
 <?php
 
 use yii\widgets\Menu;
+
+$controller = $this->context->action->controller->id;
+$method = $this->context->action->id;
+$current_action = $controller . '/' . $method;
+$get = Yii::$app->request->queryParams;
 ?>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
@@ -9,8 +14,8 @@ use yii\widgets\Menu;
         <!-- Sidebar user panel -->
         <div class="user-panel" style="height: 65px;">
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <p><?php echo Yii::$app->user->identity->name; ?></p>
+                <a href="<?php echo \yii\helpers\Url::to(['site/edit-profile']) ?>"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
         <!-- /.search form -->
@@ -33,6 +38,7 @@ use yii\widgets\Menu;
                 [
                     'label' => '<i class="fa fa-users"></i> <span>Clients</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
                     'template' => '<a href="#" >{label}</a>',
+                    'active' => ($controller == 'client' || $controller == 'client-campaign-type' || $controller=='client-package' || $controller=='client-subscriber' || $controller=='client-template') ? true : "",
                     'items' => [
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Client List',
@@ -47,12 +53,8 @@ use yii\widgets\Menu;
                             'url' => ['client-campaign-type/index'],
                         ],
                         [
-                            'label' => '<i class="fa fa-circle-o"></i> Campaign Users',
-                            'url' => '#',
-                        ],
-                        [
                             'label' => '<i class="fa fa-circle-o"></i> Client Packages',
-                            'url' => '#',
+                            'url' => ['client-package/index'],
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Client Subscribers',
@@ -104,7 +106,7 @@ use yii\widgets\Menu;
             'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
         ]);
         ?>
-        
+
     </section>
     <!-- /.sidebar -->
 </aside>
