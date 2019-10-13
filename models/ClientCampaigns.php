@@ -59,16 +59,16 @@ class ClientCampaigns extends \yii\db\ActiveRecord
     {
         return [
             'client_campaign_id' => 'Client Campaign ID',
-            'client_id' => 'Client ID',
-            'campaign_name_en' => 'Campaign Name En',
-            'campaign_description_en' => 'Campaign Description En',
-            'client_campaign_type_id' => 'Client Campaign Type ID',
-            'client_template_id' => 'Client Template ID',
+            'client_id' => 'Client',
+            'campaign_name_en' => 'Campaign Name',
+            'campaign_description_en' => 'Campaign Description',
+            'client_campaign_type_id' => 'Campaign Type',
+            'client_template_id' => 'Template',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'published_at' => 'Published At',
-            'is_publish' => 'Is Publish',
-            'is_active' => 'Is Active',
+            'is_publish' => 'Publish?',
+            'is_active' => 'Status',
             'is_deleted' => 'Is Deleted',
         ];
     }

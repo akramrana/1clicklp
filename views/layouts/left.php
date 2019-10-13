@@ -38,7 +38,7 @@ $get = Yii::$app->request->queryParams;
                 [
                     'label' => '<i class="fa fa-users"></i> <span>Clients</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
                     'template' => '<a href="#" >{label}</a>',
-                    'active' => ($controller == 'client' || $controller == 'client-campaign-type' || $controller=='client-package' || $controller=='client-subscriber' || $controller=='client-template') ? true : "",
+                    'active' => ($controller == 'client' || $controller == 'client-campaign' || $controller == 'client-campaign-type' || $controller=='client-package' || $controller=='client-subscriber' || $controller=='client-template') ? true : "",
                     'items' => [
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Client List',
@@ -46,7 +46,7 @@ $get = Yii::$app->request->queryParams;
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Campaigns',
-                            'url' => '#',
+                            'url' => ['client-campaign/index'],
                         ],
                         [
                             'label' => '<i class="fa fa-circle-o"></i> Campaign Types',

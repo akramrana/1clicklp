@@ -83,4 +83,22 @@ class AppHelper
         $list = ArrayHelper::map($model, 'package_id', 'name_en');
         return $list;
     }
+    
+    static function getCampaignType()
+    {
+        $model = \app\models\ClientCampaignTypes::find()
+                ->where(['is_deleted' => 0])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'client_campaign_type_id', 'name_en');
+        return $list;
+    }
+    
+    static function getClientCampaignTypesById($id)
+    {
+        $model = \app\models\ClientCampaignTypes::find()
+                ->where(['is_deleted' => 0,'client_id' => $id])
+                ->all(); 
+        $list = ArrayHelper::map($model, 'client_campaign_type_id', 'name_en');
+        return $list;
+    }
 }

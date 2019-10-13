@@ -45,7 +45,7 @@ class ClientCampaignUsers extends \yii\db\ActiveRecord
         return [
             'client_campaign_user' => 'Client Campaign User',
             'client_campaign_id' => 'Client Campaign ID',
-            'client_subscriber_id' => 'Client Subscriber ID',
+            'client_subscriber_id' => 'Campaign Subscriber',
         ];
     }
 
