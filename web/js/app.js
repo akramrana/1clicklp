@@ -52,6 +52,36 @@ var app = {
                 }
             });
         }
+    },
+    getCampaignTypesTemplates: (id) => {
+        if ($.trim(id) != "") {
+            $('.global-loader').show();
+            $.ajax({
+                type: "GET",
+                url: baseUrl + 'client-campaign/get-types-templates',
+                data: {
+                    "id": id
+                },
+            }).done((res) => {
+                $(".global-loader").hide();
+                var templates = `<option value="">Please Select</option>`;
+                var types = `<option value="">Please Select</option>`;
+                var obj = $.parseJSON(res);
+                $.each(obj.templates,(i,v)=>{
+                    templates+=`<option value="${v.id}">${v.name}</option>`;
+                })
+                $("#clientcampaigns-client_template_id").html(templates);
+                
+                $.each(obj.types,(i,v)=>{
+                    types+=`<option value="${v.id}">${v.name}</option>`;
+                })
+                $("#clientcampaigns-client_campaign_type_id").html(types);
+                
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                $(".global-loader").hide();
+                console.log(jqXHR.responseText);
+            });
+        }
     }
 };
 
