@@ -150,7 +150,7 @@ use yii\helpers\Html;
                             ['data-method' => 'post', 'class' => 'btn btn-purple btn-flat pull-right']
                     )
                     ?>
-                    <a href="<?php echo \yii\helpers\Url::to(['site/edit-profile']) ?>" class="btn btn-purple btn-flat pull-right">My Profile</a>
+                    <a href="<?php echo \yii\helpers\Url::to(['profile/edit']) ?>" class="btn btn-purple btn-flat pull-right">My Profile</a>
                 </li>
             </ul>
         </div>
