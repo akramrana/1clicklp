@@ -8,6 +8,9 @@ use app\models\PackageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\components\UserIdentity;
+use app\components\AccessRule;
 
 /**
  * PackageController implements the CRUD actions for Packages model.
@@ -24,6 +27,22 @@ class PackageController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'activate'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'activate'],
+                        'allow' => true,
+                        'roles' => [
+                            UserIdentity::ROLE_ADMIN
+                        ]
+                    ],
                 ],
             ],
         ];
@@ -124,7 +143,7 @@ class PackageController extends Controller
             return json_encode($model->errors);
         }
     }
-    
+
     /**
      * Finds the Packages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -8,7 +8,9 @@ use app\models\ClientCampaignSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
+use app\components\UserIdentity;
+use app\components\AccessRule;
 /**
  * ClientCampaignController implements the CRUD actions for ClientCampaigns model.
  */
@@ -24,6 +26,22 @@ class ClientCampaignController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'activate', 'publish'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'activate', 'publish'],
+                        'allow' => true,
+                        'roles' => [
+                            UserIdentity::ROLE_ADMIN
+                        ]
+                    ],
                 ],
             ],
         ];

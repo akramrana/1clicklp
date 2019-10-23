@@ -8,7 +8,9 @@ use app\models\FaqSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
+use app\components\UserIdentity;
+use app\components\AccessRule;
 /**
  * FaqController implements the CRUD actions for Faq model.
  */
@@ -24,6 +26,22 @@ class FaqController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => [
+                            UserIdentity::ROLE_ADMIN
+                        ]
+                    ],
                 ],
             ],
         ];

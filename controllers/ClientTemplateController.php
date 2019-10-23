@@ -8,6 +8,9 @@ use app\models\ClientTemplateSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\components\UserIdentity;
+use app\components\AccessRule;
 
 /**
  * ClientTemplateController implements the CRUD actions for ClientTemplates model.
@@ -24,6 +27,22 @@ class ClientTemplateController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'activate', 'publish'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'activate', 'publish'],
+                        'allow' => true,
+                        'roles' => [
+                            UserIdentity::ROLE_ADMIN
+                        ]
+                    ],
                 ],
             ],
         ];
@@ -131,14 +150,14 @@ class ClientTemplateController extends Controller
             return json_encode($model->errors);
         }
     }
-    
+
     public function actionPublish($id) {
         $model = $this->findModel($id);
         if ($model->is_published == 0) {
             $model->is_published = 1;
-            if($model->publish_url==null){
+            if ($model->publish_url == null) {
                 $title = clean($model->name_en);
-                $model->publish_url = Yii::$app->urlManager->createAbsoluteUrl('t/'.$model->client_id.'/'.$title);
+                $model->publish_url = Yii::$app->urlManager->createAbsoluteUrl('t/' . $model->client_id . '/' . $title);
             }
         } else {
             $model->is_published = 0;
