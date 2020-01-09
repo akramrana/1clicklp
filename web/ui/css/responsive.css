@@ -1,0 +1,84 @@
+@charset "utf-8";
+/* CSS Document */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 321px) {
+/* Styles */
+}
+@media only screen and (max-width : 767px) {
+.about_product_padd {
+	padding-top:20px;	
+}
+.about_product_padd {
+    padding: 50px 10px 10px 10px;
+}
+.section_headline h1 {font-size: 28px;}	
+.hero_txt_box p {
+    font-size: 16px;
+    padding: 10px 10px;
+    width: 80%;
+}
+#hero {padding-top: 100px; padding-bottom: 100px; }
+.fetr_txt_box {padding: 30px 0px;}
+#home_why_us .col-sm-5 {padding: 30px 10px;}
+.right_items {padding: 30px 10px;}
+.right_items h1 {font-size:28px;}
+.col-sm-3.left_items {border-radius: 10px 10px 0 0px;}
+.form_box {margin:0 auto;}
+#comparison_table .table-responsve {
+    font-size: 10px;
+}
+.left_blue_box input { width: 225px;}
+.right_wt_box input { width: 225px;}
+.left_blue_box {border-radius: 20px 20px 0 0px;}
+#contact_hero {padding-top: 50px;}
+.col-sm-4.left_items {border-radius:0;}
+.about_box_copy {padding: 15px;}
+.col-sm-7.d-block.d-sm-none {
+    margin-bottom: 30px;
+}
+
+
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 991px) {
+.section_headline h1 {font-size: 30px;}
+.footer_links .prpl_btn {margin-left: -78px;}
+#comparison_table .table-responsve {
+    font-size: 10px;
+}
+.about_product_padd {
+    padding: 50px 10px 50px 10px;
+}
+}
+
+@media only screen and (min-device-width : 992px) and (max-device-width : 1199px) {
+
+
+}
+
+@media only screen and (min-device-width : 1200px) and (max-device-width : 1500px) {
+
+}
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/* Styles */
+
+}
+
+/* iPads (portrait) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1190px) and (orientation : portrait) {
+/* Styles */
+
+}
+/**********
+iPad 3
+**********/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+/* Styles */
+}
+
