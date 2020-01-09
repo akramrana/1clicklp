@@ -60,9 +60,7 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect(['login']);
-        }
+        $this->layout = 'frontend\main';
         return $this->render('index');
     }
 
@@ -121,6 +119,7 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionAbout() {
+        $this->layout = 'frontend\main';
         return $this->render('about');
     }
 
@@ -194,5 +193,30 @@ class SiteController extends Controller {
         $html = \yii\helpers\Html::decode($model->html);
         
         return $html;
+    }
+    
+    public function actionFeatures() {
+        $this->layout = 'frontend\main';
+        return $this->render('features');
+    }
+    
+    public function actionPricing() {
+        $this->layout = 'frontend\main';
+        return $this->render('pricing');
+    }
+    
+    public function actionSignin() {
+        $this->layout = 'frontend\main';
+        return $this->render('signin');
+    }
+    
+    public function actionSignup() {
+        $this->layout = 'frontend\main';
+        return $this->render('signup');
+    }
+    
+    public function actionContactUs() {
+        $this->layout = 'frontend\main';
+        return $this->render('contact-us');
     }
 }
