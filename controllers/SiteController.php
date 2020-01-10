@@ -219,4 +219,25 @@ class SiteController extends Controller {
         $this->layout = 'frontend\main';
         return $this->render('contact-us');
     }
+    
+    public function actionChangePassword(){
+        $this->layout = 'frontend\main';
+        return $this->render('change-password');
+    }
+    
+    public function actionForgotPassword(){
+        $this->layout = 'frontend\main';
+        return $this->render('forgot-password');
+    }
+    
+    public function actionMyAccount(){
+        $this->layout = 'frontend\main';
+        return $this->render('my-account');
+    }
+    
+    
+    public function actionEditProfile(){
+        $this->layout = 'frontend\main';
+        return $this->render('edit-profile');
+    }
 }
