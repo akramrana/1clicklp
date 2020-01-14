@@ -678,3 +678,8 @@ margin-right: 30px;
 	font-size: 15px;
 font-weight: 600;	
 }
+.left_blue_box .help-block{
+    width: 290px;
+    margin: 0 auto;
+    color:yellow;
+}
