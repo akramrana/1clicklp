@@ -12,7 +12,8 @@ use app\models\ContactForm;
 
 define('MAX_FILE_LIMIT', 1024 * 1024 * 2);
 
-class SiteController extends Controller {
+class SiteController extends Controller
+{
 
     /**
      * {@inheritdoc}
@@ -187,57 +188,77 @@ class SiteController extends Controller {
         return '';
     }
 
-    public function actionViewTemplate($id)
-    {
+    public function actionViewTemplate($id) {
         $model = \app\models\TestTemplate::findOne($id);
         $html = \yii\helpers\Html::decode($model->html);
-        
+
         return $html;
     }
-    
+
     public function actionFeatures() {
         $this->layout = 'frontend\main';
         return $this->render('features');
     }
-    
+
     public function actionPricing() {
         $this->layout = 'frontend\main';
         return $this->render('pricing');
     }
-    
+
     public function actionSignin() {
         $this->layout = 'frontend\main';
         return $this->render('signin');
     }
-    
+
     public function actionSignup() {
         $this->layout = 'frontend\main';
-        return $this->render('signup');
+        $model = new \app\models\Clients();
+        $model->scenario = 'signup';
+        $model->created_at = date('Y-m-d H:i:s');
+        $model->updated_at = date('Y-m-d H:i:s');
+        $model->type = 'F';
+        if ($model->load(Yii::$app->request->post())) {
+            $request = Yii::$app->request->bodyParams;
+            $password = $request['Clients']['password_hash'];
+            $model->password = Yii::$app->security->generatePasswordHash($password);
+            $model->is_active = 1;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Registration successfully completed');
+                return $this->redirect(['site/signup']);
+            } else {
+                return $this->render('signup', [
+                            'model' => $model,
+                ]);
+            }
+        }
+        return $this->render('signup', [
+                    'model' => $model,
+        ]);
     }
-    
+
     public function actionContactUs() {
         $this->layout = 'frontend\main';
         return $this->render('contact-us');
     }
-    
-    public function actionChangePassword(){
+
+    public function actionChangePassword() {
         $this->layout = 'frontend\main';
         return $this->render('change-password');
     }
-    
-    public function actionForgotPassword(){
+
+    public function actionForgotPassword() {
         $this->layout = 'frontend\main';
         return $this->render('forgot-password');
     }
-    
-    public function actionMyAccount(){
+
+    public function actionMyAccount() {
         $this->layout = 'frontend\main';
         return $this->render('my-account');
     }
-    
-    
-    public function actionEditProfile(){
+
+    public function actionEditProfile() {
         $this->layout = 'frontend\main';
         return $this->render('edit-profile');
     }
+
 }

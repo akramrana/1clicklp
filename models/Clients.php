@@ -47,7 +47,7 @@ class Clients extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'email', 'phone', 'password', 'created_at', 'updated_at', 'type'], 'required'],
+            [['first_name', 'email', 'password', 'created_at', 'updated_at', 'type'], 'required'],
             [['is_social_register', 'is_phone_verified', 'is_email_verified', 'newsletter_subscribed', 'is_active', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['type'], 'string'],
@@ -57,6 +57,7 @@ class Clients extends \yii\db\ActiveRecord
             ['email','email'],
             ['email','unique'],
             [['password_hash','confirm_password'], 'required', 'on' => 'create'],
+            [['password_hash'], 'required', 'on' => 'signup'],
             [['password_hash'],'string','min'=>6],
             ['password_hash', 'match', 'pattern' => '$\S*(?=\S{6,})(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', 'message' => 'Password should contain at least one upper case letter, one number and one special character'],
             ['confirm_password', 'compare', 'compareAttribute' => 'password_hash','message' => Yii::t('yii', 'Confirm Password must be equal to "Password"')],
@@ -71,7 +72,7 @@ class Clients extends \yii\db\ActiveRecord
     {
         return [
             'client_id' => 'Client ID',
-            'first_name' => 'First Name',
+            'first_name' => 'Full Name',
             'last_name' => 'Last Name',
             'email' => 'Email',
             'phone' => 'Phone',

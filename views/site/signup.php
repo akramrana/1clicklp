@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
+use yii\widgets\ActiveForm;
 
 $this->title = 'Signup';
 ?>
@@ -13,20 +14,25 @@ $this->title = 'Signup';
                     <div class="left_blue_box section_headline">
                         <h1>Sign Up for <b>FREE</b></h1>
                         <p>Enter your personal details<br>and start journy with us.</p>
-                        <form>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Full name">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary prpl_btn">Sign Up</button>
-                        </form>
+                        <p><?= Yii::$app->session->getFlash('success') ?></p>
+                        <?php $form = ActiveForm::begin(); ?>
+                        
+                        <?=
+                        $form->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Full name'])->label(false)
+                        ?>
+                        <div class="form-group">
+                            <?=
+                            $form->field($model, 'email')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Enter email', 'aria-describedby' => 'emailHelp'])->label(false)
+                            ?>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <?=
+                            $form->field($model, 'password_hash')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Password'])->label(false)
+                            ?>
+                        </div>
+                        <?= Html::submitButton('Sign Up', ['class' => 'btn btn-primary prpl_btn']) ?>
+                        <?php ActiveForm::end(); ?>
                     </div>
                 </div>
                 <div class="col-sm-7">
