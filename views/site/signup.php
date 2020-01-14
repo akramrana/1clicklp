@@ -15,23 +15,24 @@ $this->title = 'Signup';
                         <h1>Sign Up for <b>FREE</b></h1>
                         <p>Enter your personal details<br>and start journy with us.</p>
                         <p><?= Yii::$app->session->getFlash('success') ?></p>
-                        <?php $form = ActiveForm::begin(); ?>
                         
+                        <?php $form = ActiveForm::begin(); ?>
+
                         <?=
                         $form->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Full name'])->label(false)
                         ?>
-                        <div class="form-group">
-                            <?=
-                            $form->field($model, 'email')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Enter email', 'aria-describedby' => 'emailHelp'])->label(false)
-                            ?>
-                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                        </div>
-                        <div class="form-group">
-                            <?=
-                            $form->field($model, 'password_hash')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Password'])->label(false)
-                            ?>
-                        </div>
+
+                        <?=
+                        $form->field($model, 'email')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Enter email', 'aria-describedby' => 'emailHelp'])->label(false)
+                        ?>
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+
+                        <?=
+                        $form->field($model, 'password_hash')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Password'])->label(false)
+                        ?>
+                        
                         <?= Html::submitButton('Sign Up', ['class' => 'btn btn-primary prpl_btn']) ?>
+                        
                         <?php ActiveForm::end(); ?>
                     </div>
                 </div>

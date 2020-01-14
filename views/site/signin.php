@@ -1,7 +1,9 @@
 <?php
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
+use yii\bootstrap\ActiveForm;
 
 $this->title = 'Signin';
 ?>
@@ -14,31 +16,39 @@ $this->title = 'Signin';
                     <div class="left_blue_box section_headline">
                         <h1>Sign In to XYZ</h1>
                         <ul>
-                            <li><a href="" ><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="" ><i class="fa fa-linkedin"></i></a></li>	
+                            <li><a href="#" ><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" ><i class="fa fa-linkedin"></i></a></li>	
                         </ul>
-                        <a href="" class="sign_email_txt">or use your email account</a>
-                        <form>
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                                <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary prpl_btn">Sign In</button>
-                            <div class="form-group">
-                                <a href="" class="form-check-label" for="exampleCheck1">Forgotyour password?</a>
-                            </div>
-                        </form>
+                        <a href="#" class="sign_email_txt">or use your email account</a>
+                        <?php
+                        $form = ActiveForm::begin([
+                                    'id' => 'login-form',
+                        ]);
+                        ?>
+                        
+                        <?=
+                        $form->field($model, 'email')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Enter email'])->label(false)
+                        ?>
+                        
+                        
+                        <?=
+                        $form->field($model, 'password')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Password'])->label(false)
+                        ?>
+                        
+                        <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary prpl_btn']) ?>
+                        
+                        <div class="form-group">
+                            <a href="#" class="form-check-label" for="exampleCheck1">Forgot your password?</a>
+                        </div>
+                        
+                        <?php ActiveForm::end(); ?>
                     </div>
                 </div>
                 <div class="col-sm-7">
                     <div class="right_wt_box section_headline">
                         <h1>Sign Up for <b>FREE</b></h1>
                         <p>Enter your personal details<br>and start journy with us.</p>
-                        <a href="<?= Url::to(['site/signup']);?>" class="btn btn-primary prpl_btn">Sign Up</a>
+                        <a href="<?= Url::to(['site/signup']); ?>" class="btn btn-primary prpl_btn">Sign Up</a>
 
                     </div>
                 </div>

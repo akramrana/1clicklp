@@ -206,11 +206,25 @@ class SiteController extends Controller
     }
 
     public function actionSignin() {
+        if (Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/my-account']);
+        }
         $this->layout = 'frontend\main';
-        return $this->render('signin');
+        $model = new \app\models\UserLoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->redirect(['site/my-account']);
+        }
+
+        $model->password = '';
+        return $this->render('signin',[
+            'model' => $model,
+        ]);
     }
 
     public function actionSignup() {
+        if (Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/my-account']);
+        }
         $this->layout = 'frontend\main';
         $model = new \app\models\Clients();
         $model->scenario = 'signup';
@@ -242,23 +256,45 @@ class SiteController extends Controller
     }
 
     public function actionChangePassword() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
         $this->layout = 'frontend\main';
         return $this->render('change-password');
     }
 
     public function actionForgotPassword() {
+        if (Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
         $this->layout = 'frontend\main';
         return $this->render('forgot-password');
     }
 
     public function actionMyAccount() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
         $this->layout = 'frontend\main';
         return $this->render('my-account');
     }
 
     public function actionEditProfile() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
         $this->layout = 'frontend\main';
         return $this->render('edit-profile');
     }
 
+    public function actionSignout(){
+        if (Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        \Yii::$app->session->remove('_1clickLpCustomerLogin');
+        \Yii::$app->session->remove('_1clickLpCustomerAuth');
+        \Yii::$app->session->remove('_1clickLpCustomerData');
+        //
+        return $this->redirect(['site/signin']);
+    }
 }
