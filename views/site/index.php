@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\BaseUrl;
+use yii\helpers\Url;
 $this->title = 'Home';
 ?>
 <section id="hero">
@@ -10,7 +11,7 @@ $this->title = 'Home';
                 <div class="col col-lg-8 hero_txt_box text-center section_headline">
                     <h1><b>Promote</b> your business in <b>easy</b> 3 steps</h1>
                     <p><b>No domain hosting required</b> <br><b>Choose</b> a template, <b>publish</b> and let <b>audience know your services</b></p>
-                    <a class="btn btn-primary prpl_btn" href="">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
                 </div>
             </div>
 
@@ -127,7 +128,7 @@ $this->title = 'Home';
                 <div class="fetr_txt_box section_headline">
                     <h1>Take a <b>look</b> in our <b>features</b></h1>
                     <p>Our features are full of great importance. <br>Which will meet your needs and get some additional&nbsp;benefits.</p>
-                    <a class="btn btn-primary prpl_btn" href="">Get started</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signin']);?>">Get started</a>
                 </div>
             </div>
         </div>
@@ -146,7 +147,7 @@ $this->title = 'Home';
                     <li class="list-group-item">Don't trust your business to a non-business centered host.</li>
                     <li class="list-group-item">We do not oversell our web hosting services.</li>
                 </ul>
-                <a class="btn btn-primary prpl_btn" href="">Get started</a>
+                <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signin']);?>">Get started</a>
             </div>
         </div>
     </div>
@@ -171,7 +172,7 @@ $this->title = 'Home';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
                 </div>
             </div>
 
@@ -186,7 +187,7 @@ $this->title = 'Home';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
                 </div>
             </div>
 
@@ -201,7 +202,7 @@ $this->title = 'Home';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
                 </div>
             </div>
         </div>

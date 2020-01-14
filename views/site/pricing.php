@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
 
@@ -25,7 +25,7 @@ $this->title = 'Pricing';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
                 </div>
             </div>
 
@@ -40,7 +40,7 @@ $this->title = 'Pricing';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@ $this->title = 'Pricing';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -152,9 +152,9 @@ $this->title = 'Pricing';
                                 <tfoot class="thead-inverse">
                                     <tr>
                                         <th class="w-25"></th>
-                                        <th class=""><a class="btn btn-primary prpl_btn" href="">Sign Up</a></th>
-                                        <th class=""><a class="btn btn-primary prpl_btn" href="">Sign Up</a></th>
-                                        <th class=""><a class="btn btn-primary prpl_btn" href="">Sign Up</a></th>
+                                        <th class=""><a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a></th>
+                                        <th class=""><a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a></th>
+                                        <th class=""><a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a></th>
                                         <th class=""></th>
                                     </tr>
                                 </tfoot>

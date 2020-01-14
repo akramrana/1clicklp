@@ -3,6 +3,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
+use yii\helpers\Url;
 $this->title = 'About Us';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="about_box_copy section_copy section_headline">
                     <h1>Lorem ipsum dolor sit amet consectetur</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br>ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                    <a class="btn btn-primary prpl_btn" href="signup.html">Register</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Register</a>
                 </div>
             </div>
         </div>

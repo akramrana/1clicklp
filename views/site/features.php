@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
 
@@ -38,7 +38,7 @@ $this->title = 'Features';
                     <h1>Email Marketing</h1>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                    <a class="btn btn-primary prpl_btn" href="">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@ $this->title = 'Features';
                     <h1>Lead Generation</h1>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                    <a class="btn btn-primary prpl_btn" href="">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@ $this->title = 'Features';
                     <h1>Powerfull Landing Pages</h1>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                    <a class="btn btn-primary prpl_btn" href="">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@ $this->title = 'Features';
                     <h1>Easy management</h1>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                    <a class="btn btn-primary prpl_btn" href="">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@ $this->title = 'Features';
                     <h1>Drag & drop tools</h1>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                    <a class="btn btn-primary prpl_btn" href="">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@ $this->title = 'Features';
                     <h1>Details Reporting</h1>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                    <a class="btn btn-primary prpl_btn" href="">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
                 </div>
             </div>
         </div>

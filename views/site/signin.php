@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
 
@@ -38,7 +38,7 @@ $this->title = 'Signin';
                     <div class="right_wt_box section_headline">
                         <h1>Sign Up for <b>FREE</b></h1>
                         <p>Enter your personal details<br>and start journy with us.</p>
-                        <a href="signup.html" class="btn btn-primary prpl_btn">Sign Up</a>
+                        <a href="<?= Url::to(['site/signup']);?>" class="btn btn-primary prpl_btn">Sign Up</a>
 
                     </div>
                 </div>

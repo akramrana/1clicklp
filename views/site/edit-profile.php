@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
 
@@ -33,7 +33,7 @@ $this->title = 'Edit Profile';
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">50%</div>
                     </div>
-                    <a class="btn btn-primary prpl_btn" href="signin.html">Upgrade Plan</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signin']);?>">Upgrade Plan</a>
                 </div>
             </div>
             <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">...</div>
