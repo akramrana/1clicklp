@@ -32,11 +32,12 @@ class Feedback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'email', 'phone', 'message'], 'required'],
+            [['name', 'email', 'message'], 'required'],
             [['message'], 'string'],
             [['status', 'is_deleted'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['email', 'phone', 'subject'], 'string', 'max' => 50],
+            [['email'],'email']
         ];
     }
 

@@ -216,8 +216,8 @@ class SiteController extends Controller
         }
 
         $model->password = '';
-        return $this->render('signin',[
-            'model' => $model,
+        return $this->render('signin', [
+                    'model' => $model,
         ]);
     }
 
@@ -287,7 +287,7 @@ class SiteController extends Controller
         return $this->render('edit-profile');
     }
 
-    public function actionSignout(){
+    public function actionSignout() {
         if (Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
@@ -297,4 +297,17 @@ class SiteController extends Controller
         //
         return $this->redirect(['site/signin']);
     }
+
+    public function actionSaveFeedback() {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $model = new \app\models\Feedback();
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return [
+                    'status' => 200
+                ];
+            }
+        }
+    }
+
 }
