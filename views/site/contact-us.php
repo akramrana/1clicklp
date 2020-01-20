@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
+use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = 'Contact Us';
 ?>
@@ -15,7 +17,7 @@ $this->title = 'Contact Us';
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-6">
-                    <img src="<?=BaseUrl::home();?>ui/images/world-map.png" alt="world map" class="img-fluid">
+                    <img src="<?= BaseUrl::home(); ?>ui/images/world-map.png" alt="world map" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -26,7 +28,7 @@ $this->title = 'Contact Us';
         <div class="row form_box">
             <div class="col-lg-3 col-sm-4 left_items">
                 <a href="mailto:">
-                    <img src="<?=BaseUrl::home();?>ui/images/contact_email.png" alt="email">
+                    <img src="<?= BaseUrl::home(); ?>ui/images/contact_email.png" alt="email">
                 </a>
                 <h2>Please describe <br/>your queries</h2>
                 <p>
@@ -37,28 +39,63 @@ $this->title = 'Contact Us';
             </div>
             <div class="col-lg-9 col-sm-8 right_items">
                 <h2>Send us a Message</h2>
-                <form>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Message</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <?php
+                $form = ActiveForm::begin([
+                            'id' => 'feedback-form',
+                            'action' => Url::to(['site/save-feedback']),
+                ]);
+                $feedBackModel = new app\models\Feedback();
+                ?>
+                <div id="feedback-response"></div>
+                <?=
+                $form->field($feedBackModel, 'message')->textarea(['rows' => true]);
+                ?>
+                <div class="form-row">
+                    <div class="col">
+                        <?=
+                        $form->field($feedBackModel, 'name')->textInput(['maxlength' => true, 'class' => 'form-control']);
+                        ?>
                     </div>
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="inputEmail4">Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control">
-                            </div>
-                        </div>
+                    <div class="col">
+                        <?=
+                        $form->field($feedBackModel, 'email')->textInput(['maxlength' => true, 'class' => 'form-control']);
+                        ?>
                     </div>
-                    <button type="submit" class="btn btn-primary">SEND</button>
-                </form>
+                </div>
+                <?= Html::submitButton('SEND', ['class' => 'btn btn-primary']) ?>
+                <?php
+                ActiveForm::end();
+                ?>
             </div>
         </div>
     </div>
 </section>
+<?php
+$this->registerJs("$('body').on('beforeSubmit', 'form#feedback-form', function (e) {
+    var form = $(this);
+    if (form.find('.has-error').length) {
+        return false;
+    }
+    else{
+        $('#feedback-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-info\">" . Yii::t('app', 'Sending...') . "</div></div></div>');
+        $.ajax({
+             url: form.attr('action'),
+             type: 'post',
+             data: form.serialize(),
+             success: function (response) {
+                if(response.status==200){
+                    $('#feedback-form')[0].reset();
+                    $('#feedback-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-success\">" . Yii::t('app', 'Feedback successfully saved!') . "</div></div></div>');
+                }
+                else{
+                   $('#feedback-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-danger\">" . Yii::t('app', 'There was error to saving your feedback!') . "</div></div></div>');
+                }
+             },
+             error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert(jqXHR.responseText);
+            }
+         });
+         return false;            
+    }
+});", \yii\web\View::POS_END);

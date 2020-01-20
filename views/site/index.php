@@ -1,7 +1,11 @@
 <?php
 /* @var $this yii\web\View */
+
+use yii\widgets\ActiveForm;
 use yii\helpers\BaseUrl;
 use yii\helpers\Url;
+use yii\helpers\Html;
+
 $this->title = 'Home';
 ?>
 <section id="hero">
@@ -11,7 +15,7 @@ $this->title = 'Home';
                 <div class="col col-lg-8 hero_txt_box text-center section_headline">
                     <h1><b>Promote</b> your business in <b>easy</b> 3 steps</h1>
                     <p><b>No domain hosting required</b> <br><b>Choose</b> a template, <b>publish</b> and let <b>audience know your services</b></p>
-                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign up free</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']); ?>">Sign up free</a>
                 </div>
             </div>
 
@@ -69,21 +73,21 @@ $this->title = 'Home';
         <div class="row">
             <div class="col-sm-4">
                 <div class="stp_box">
-                    <img src="<?=BaseUrl::home();?>ui/images/select_icon.png" alt="icon">
+                    <img src="<?= BaseUrl::home(); ?>ui/images/select_icon.png" alt="icon">
                     <h2>Select</h2>
                     <p>Select template from <br>our storage</p>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="stp_box">
-                    <img src="<?=BaseUrl::home();?>ui/images/customize_icon.png" alt="icon">
+                    <img src="<?= BaseUrl::home(); ?>ui/images/customize_icon.png" alt="icon">
                     <h2>Customize</h2>
                     <p>Easy to customize the template <br>by your own</p>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="stp_box">
-                    <img src="<?=BaseUrl::home();?>ui/images/publish_icon.png" alt="icon">
+                    <img src="<?= BaseUrl::home(); ?>ui/images/publish_icon.png" alt="icon">
                     <h2>Publish</h2>
                     <p>Publish your template <br>and get the URL</p>
                 </div>
@@ -99,27 +103,27 @@ $this->title = 'Home';
             <div class="col-sm-6 fetr_items">
                 <ul>
                     <li>
-                        <img src="<?=BaseUrl::home();?>ui/images/icon_LeadGeneration.png" alt="Lead Generation">
+                        <img src="<?= BaseUrl::home(); ?>ui/images/icon_LeadGeneration.png" alt="Lead Generation">
                         <h2>Lead Generation</h2>
                     </li>
                     <li>
-                        <img src="<?=BaseUrl::home();?>ui/images/icon_dashboard.png" alt="Lead Generation">
+                        <img src="<?= BaseUrl::home(); ?>ui/images/icon_dashboard.png" alt="Lead Generation">
                         <h2>Drag & drop tools</h2>
                     </li>
                     <li>
-                        <img src="<?=BaseUrl::home();?>ui/images/icon_email_marketing.png" alt="Lead Generation">
+                        <img src="<?= BaseUrl::home(); ?>ui/images/icon_email_marketing.png" alt="Lead Generation">
                         <h2>Email Marketing</h2>
                     </li>
                     <li>
-                        <img src="<?=BaseUrl::home();?>ui/images/icon_reporting.png" alt="Lead Generation">
+                        <img src="<?= BaseUrl::home(); ?>ui/images/icon_reporting.png" alt="Lead Generation">
                         <h2>Details Reporting</h2>
                     </li>
                     <li>
-                        <img src="<?=BaseUrl::home();?>ui/images/icon_powerfull_lp.png" alt="Lead Generation">
+                        <img src="<?= BaseUrl::home(); ?>ui/images/icon_powerfull_lp.png" alt="Lead Generation">
                         <h2>Powerfull Landing Pages</h2>
                     </li>
                     <li>
-                        <img src="<?=BaseUrl::home();?>ui/images/icon_management.png" alt="Lead Generation">
+                        <img src="<?= BaseUrl::home(); ?>ui/images/icon_management.png" alt="Lead Generation">
                         <h2>Easy management</h2>
                     </li>
                 </ul>
@@ -128,7 +132,7 @@ $this->title = 'Home';
                 <div class="fetr_txt_box section_headline">
                     <h1>Take a <b>look</b> in our <b>features</b></h1>
                     <p>Our features are full of great importance. <br>Which will meet your needs and get some additional&nbsp;benefits.</p>
-                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signin']);?>">Get started</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signin']); ?>">Get started</a>
                 </div>
             </div>
         </div>
@@ -147,7 +151,7 @@ $this->title = 'Home';
                     <li class="list-group-item">Don't trust your business to a non-business centered host.</li>
                     <li class="list-group-item">We do not oversell our web hosting services.</li>
                 </ul>
-                <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signin']);?>">Get started</a>
+                <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signin']); ?>">Get started</a>
             </div>
         </div>
     </div>
@@ -172,7 +176,7 @@ $this->title = 'Home';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']); ?>">Sign Up</a>
                 </div>
             </div>
 
@@ -187,7 +191,7 @@ $this->title = 'Home';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']); ?>">Sign Up</a>
                 </div>
             </div>
 
@@ -202,7 +206,7 @@ $this->title = 'Home';
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']);?>">Sign Up</a>
+                    <a class="btn btn-primary prpl_btn" href="<?= Url::to(['site/signup']); ?>">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -213,7 +217,7 @@ $this->title = 'Home';
     <div class="container">
         <div class="row form_box">
             <div class="col-lg-3 col-sm-4 left_items">
-                <a href="mailto:"><img src="<?=BaseUrl::home();?>ui/images/contact_email.png" alt="email"></a>
+                <a href="mailto:"><img src="<?= BaseUrl::home(); ?>ui/images/contact_email.png" alt="email"></a>
                 <h2>Please describe <br>your queries</h2>
                 <p>
                     We need your email <br>
@@ -223,29 +227,63 @@ $this->title = 'Home';
             </div>
             <div class="col-lg-9 col-sm-8 right_items">
                 <h1>Contact us</h1>
-                <form>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Message</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <?php
+                $form = ActiveForm::begin([
+                            'id' => 'feedback-form',
+                            'action' => Url::to(['site/save-feedback']),
+                ]);
+                $feedBackModel = new app\models\Feedback();
+                ?>
+                <div id="feedback-response"></div>
+                <?=
+                $form->field($feedBackModel, 'message')->textarea(['rows' => true]);
+                ?>
+                <div class="form-row">
+                    <div class="col">
+                        <?=
+                        $form->field($feedBackModel, 'name')->textInput(['maxlength' => true, 'class' => 'form-control']);
+                        ?>
                     </div>
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="inputEmail4">Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control">
-                            </div>
-                        </div>
+                    <div class="col">
+                        <?=
+                        $form->field($feedBackModel, 'email')->textInput(['maxlength' => true, 'class' => 'form-control']);
+                        ?>
                     </div>
-                    <button type="submit" class="btn btn-primary">SEND</button>
-                </form>
-
+                </div>
+                <?= Html::submitButton('SEND', ['class' => 'btn btn-primary']) ?>
+                <?php
+                ActiveForm::end();
+                ?>
             </div>
         </div>
     </div>
 </section>
+<?php
+$this->registerJs("$('body').on('beforeSubmit', 'form#feedback-form', function (e) {
+    var form = $(this);
+    if (form.find('.has-error').length) {
+        return false;
+    }
+    else{
+        $('#feedback-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-info\">" . Yii::t('app', 'Sending...') . "</div></div></div>');
+        $.ajax({
+             url: form.attr('action'),
+             type: 'post',
+             data: form.serialize(),
+             success: function (response) {
+                if(response.status==200){
+                    $('#feedback-form')[0].reset();
+                    $('#feedback-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-success\">" . Yii::t('app', 'Feedback successfully saved!') . "</div></div></div>');
+                }
+                else{
+                   $('#feedback-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-danger\">" . Yii::t('app', 'There was error to saving your feedback!') . "</div></div></div>');
+                }
+             },
+             error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert(jqXHR.responseText);
+            }
+         });
+         return false;            
+    }
+});", \yii\web\View::POS_END);
