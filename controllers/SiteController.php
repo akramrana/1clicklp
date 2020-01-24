@@ -288,7 +288,7 @@ class SiteController extends Controller
     }
 
     public function actionSignout() {
-        if (Yii::$app->session['_1clickLpCustomerLogin']) {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
         \Yii::$app->session->remove('_1clickLpCustomerLogin');
@@ -308,6 +308,22 @@ class SiteController extends Controller
                 ];
             }
         }
+    }
+    
+    public function actionBilling() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('billing');
+    }
+    
+    public function actionApi() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('api');
     }
 
 }
