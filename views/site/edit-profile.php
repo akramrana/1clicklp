@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
+use dosamigos\fileupload\FileUpload;
 
 $this->title = 'Edit Profile';
 ?>
