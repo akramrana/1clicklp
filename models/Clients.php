@@ -86,6 +86,7 @@ class Clients extends \yii\db\ActiveRecord
             'newsletter_subscribed' => 'Newsletter Subscribed',
             'type' => 'Type',
             'is_active' => 'Status',
+            'photo' => 'Photo',
             'is_deleted' => 'Is Deleted',
             'password_hash' => Yii::t('app', 'Password'),
             'confirm_password' => Yii::t('app', 'Confirm Password'),
