@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\BaseUrl;
 use yii\helpers\Url;
 use app\assets\FrontendAsset;
+use yii\widgets\ActiveForm;
 
 FrontendAsset::register($this);
 ?>
@@ -123,9 +124,31 @@ FrontendAsset::register($this);
                             <li><a href="<?= Url::to(['site/pricing']); ?>">Price</a></li>
                             <li><a href="<?= Url::to(['site/contact-us']); ?>">Contact</a></li>
                         </ul>
-                        <form action="#" method="Post">
-                            <input type="text" name="text" placeholder="Your email..."><button type="button" class="btn btn-primary prpl_btn">Subscribe</button>
-                        </form>
+                        <?php
+                        $form = ActiveForm::begin([
+                                    'id' => 'subscribe-newsletter-form',
+                                    'fieldConfig' => [
+                                        'options' => [
+                                            'tag' => 'span',
+                                        ],
+                                    ],
+                                    'action' => Url::to(['site/subscribe-newsletter']),
+                        ]);
+                        $nsModel = new app\models\NewsletterSubscriber();
+                        ?>
+                        <div id="ns-response"></div>
+                        <?=
+                        $form->field($nsModel, 'email', [
+                            'template' => '{input}',
+                            'errorOptions' => [
+                                'tag' => 'span',
+                            ]
+                        ])->textInput(['class' => "", 'placeholder' => 'Your email...'])->label(false);
+                        ?>
+                        <?= Html::submitButton('Subscribe', ['class' => 'btn btn-primary prpl_btn']) ?>
+                        <?php
+                        ActiveForm::end();
+                        ?>
                     </div>
                 </div>
                 <div class="row ">
@@ -136,6 +159,36 @@ FrontendAsset::register($this);
                 </div>
             </div>
         </section>
+        <?php
+        $this->registerJs("$('body').on('beforeSubmit', 'form#subscribe-newsletter-form', function (e) {
+                                var form = $(this);
+                                if (form.find('.has-error').length) {
+                                    return false;
+                                }
+                                else{
+                                    $('#ns-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-info\">" . Yii::t('app', 'Sending...') . "</div></div></div>');
+                                    $.ajax({
+                                         url: form.attr('action'),
+                                         type: 'post',
+                                         data: form.serialize(),
+                                         success: function (response) {
+                                            if(response.status==200){
+                                                $('#subscribe-newsletter-form')[0].reset();
+                                                $('#ns-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-success\">" . Yii::t('app', 'Newsletter subcription successful!') . "</div></div></div>');
+                                            }
+                                            else{
+                                               $('#ns-response').html('<div class=\"row\"><div class=\"col-md-12\"><div class=\"alert alert-danger\">" . Yii::t('app', 'There was error to saving your data!') . "</div></div></div>');
+                                            }
+                                         },
+                                         error: function (jqXHR, textStatus, errorThrown)
+                                        {
+                                            alert(jqXHR.responseText);
+                                        }
+                                     });
+                                     return false;            
+                                }
+                            });", \yii\web\View::POS_END);
+        ?>
         <?php $this->endBody() ?>
     </body>
 </html>

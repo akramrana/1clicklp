@@ -325,5 +325,17 @@ class SiteController extends Controller
         $this->layout = 'frontend\main';
         return $this->render('api');
     }
+    
+    public function actionSubscribeNewsletter() {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $model = new \app\models\NewsletterSubscriber();
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return [
+                    'status' => 200
+                ];
+            }
+        }
+    }
 
 }
