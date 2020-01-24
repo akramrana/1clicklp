@@ -77,7 +77,7 @@ FrontendAsset::register($this);
                         ?>
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item dropdown active">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Iqbal</a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo Yii::$app->session['_1clickLpCustomerData']['first_name'].' '.Yii::$app->session['_1clickLpCustomerData']['last_name']; ?></a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="<?= Url::to(['site/edit-profile']); ?>">Profile</a>
                                     <a class="dropdown-item" href="<?= Url::to(['site/my-account']); ?>">Account</a>
