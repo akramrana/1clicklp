@@ -29,6 +29,7 @@ class FrontendAsset extends AssetBundle
         //'js/jquery-3.4.1.min.js.js',
         'js/bootstrap.min.js',
         'js/script.js',
+        'js/site.js',
     ];
     
     public $depends = [

@@ -309,7 +309,7 @@ class SiteController extends Controller
             }
         }
     }
-    
+
     public function actionBilling() {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
@@ -317,7 +317,7 @@ class SiteController extends Controller
         $this->layout = 'frontend\main';
         return $this->render('billing');
     }
-    
+
     public function actionApi() {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
@@ -325,7 +325,7 @@ class SiteController extends Controller
         $this->layout = 'frontend\main';
         return $this->render('api');
     }
-    
+
     public function actionSubscribeNewsletter() {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
@@ -334,6 +334,58 @@ class SiteController extends Controller
                 return [
                     'status' => 200
                 ];
+            }
+        }
+    }
+
+    public function actionUpdateProfilePic() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $model = \app\models\Clients::find()
+                    ->where(['client_id' => Yii::$app->session['_1clickLpCustomerData']['client_id'], 'is_deleted' => 0])
+                    ->one();
+            if (!empty($model)) {
+                $request = Yii::$app->request->bodyParams;
+                //debugPrint($request);exit;
+                $imageStr = str_replace('data:image/png;base64,', '', $request['image']);
+                $imageStr = str_replace('data:image/jpeg;base64,', '', $imageStr);
+                $imageStr = str_replace('data:image/gif;base64,', '', $imageStr);
+                $image = base64_decode($imageStr);
+                if ($image) {
+                    try {
+                        $img = imagecreatefromstring($image);
+                        if ($img !== false) {
+                            $imageName = time() . '.png';
+                            imagepng($img, Yii::$app->basePath . '/web/uploads/' . $imageName, 9);
+                            imagedestroy($img);
+                            $model->photo = $imageName;
+                            if ($model->save()) {
+                                $user = \app\models\ClientUser::findByUsername(Yii::$app->session['_1clickLpCustomerData']['email']);
+                                \Yii::$app->session->set('_1clickLpCustomerData', $user);
+                                return [
+                                    'status' => 200,
+                                    'path' => \yii\helpers\BaseUrl::home() . '/uploads/' . $model->photo,
+                                    'msg' => ''
+                                ];
+                            }
+                        } else {
+                            return [
+                                'status' => 500,
+                                'path' => "",
+                                'msg' => 'Error Uploading File'
+                            ];
+                        }
+                    } catch (\Exception $e) {
+                        return [
+                            'status' => 500,
+                            'path' => "",
+                            'msg' => $e->getMessage(),
+                        ];
+                    }
+                }
             }
         }
     }
