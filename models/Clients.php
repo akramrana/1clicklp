@@ -56,6 +56,7 @@ class Clients extends \yii\db\ActiveRecord
             [['verification_code'], 'string', 'max' => 16],
             ['email','email'],
             ['email','unique'],
+            ['phone','unique'],
             [['password_hash','confirm_password'], 'required', 'on' => 'create'],
             [['password_hash'], 'required', 'on' => 'signup'],
             [['password_hash'],'string','min'=>6],

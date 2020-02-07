@@ -284,7 +284,54 @@ class SiteController extends Controller
             return $this->redirect(['site/signin']);
         }
         $this->layout = 'frontend\main';
-        return $this->render('edit-profile');
+        $model = \app\models\Clients::findOne(Yii::$app->session['_1clickLpCustomerData']['client_id']);
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if ($model->load(Yii::$app->request->post())) {
+                $request = Yii::$app->request->bodyParams;
+                if ($model->save()) {
+                    return[
+                        'status' => 200,
+                    ];
+                }else{
+                    return[
+                        'status' => 500,
+                        'msg' => 'E-mail/Phone already been taken!'
+                    ];
+                }
+            }
+        }
+        $passwordForm = new \app\models\PasswordForm();
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if ($passwordForm->load(\Yii::$app->request->post())) {
+                if ($passwordForm->validate()) {
+                    if (isset($passwordForm->repeatNewPass) && $passwordForm->repeatNewPass != "") {
+                        $model->password = Yii::$app->security->generatePasswordHash($passwordForm->repeatNewPass);
+                    }
+                    if ($model->save()) {
+                        return[
+                            'status' => 200,
+                            'msg' => ''
+                        ];
+                    } else {
+                        return[
+                            'status' => 500,
+                            'msg' => $model->errors,
+                        ];
+                    }
+                } else {
+                    return[
+                        'status' => 500,
+                        'msg' => $passwordForm->errors['oldPass'][0],
+                    ];
+                }
+            }
+        }
+        return $this->render('edit-profile', [
+                    'model' => $model,
+                    'passwordForm' => $passwordForm,
+        ]);
     }
 
     public function actionSignout() {
@@ -382,7 +429,7 @@ class SiteController extends Controller
                         return [
                             'status' => 500,
                             'path' => "",
-                            'msg' => $e->getMessage(),
+                            'msg' => 'Error Uploading File',
                         ];
                     }
                 }

@@ -3,6 +3,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\BaseUrl;
+use yii\bootstrap\ActiveForm;
 
 $this->title = 'Edit Profile';
 //debugPrint(Yii::$app->session['_1clickLpCustomerData']);
@@ -42,38 +43,61 @@ $this->title = 'Edit Profile';
                 <div class="row profile_info">
                     <div class="col-sm-6">
                         <h2>Basic information</h2>
-                        <form>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Username</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-                            </div>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput2">Another label</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-                            </div>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput2">Another label</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-                            </div>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput2">Another label</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-                            </div>
-                        </form>
+                        <div class="profile-response"></div>
+                        <?php
+                        $form = ActiveForm::begin([
+                                    'id' => 'edit-profile-form',
+                        ]);
+                        ?>
+
+                        <?=
+                        $form->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Full Name']);
+                        ?>
+
+                        <?=
+                        $form->field($model, 'phone')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Phone']);
+                        ?>
+                        
+                        <?=
+                        $form->field($model, 'email')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Phone']);
+                        ?>
+                        
+                        <?=
+                        $form->field($model, 'newsletter_subscribed')->checkbox();
+                        ?>
+
+                        <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
+
+                        <?php
+                        ActiveForm::end();
+                        ?>
                     </div>
                     <div class="col-sm-6">
                         <h2>Change password</h2>
-                        <form>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Verify your password</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-                            </div>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput2">New password</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-                            </div>
+                        <div class="password-response"></div>
+                        <?php
+                        $form = ActiveForm::begin([
+                                    'id' => 'change-pass-form',
+                        ]);
+                        ?>
+                        
+                        <?=
+                        $form->field($passwordForm, 'oldPass')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Old Password']);
+                        ?>
+                        
+                        <?=
+                        $form->field($passwordForm, 'newPass')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'New Password']);
+                        ?>
+                        
+                        <?=
+                        $form->field($passwordForm, 'repeatNewPass')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Confirm New Password']);
+                        ?>
+                        
+                        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
 
-                        </form>
+                        <?php
+                        ActiveForm::end();
+                        ?>
                     </div>
                 </div>
             </div>
@@ -81,3 +105,52 @@ $this->title = 'Edit Profile';
         </div>
     </div>
 </section>
+<?php
+$this->registerJs("$('#edit-profile-form').on('beforeSubmit', function () {
+    var form = $(this);
+    var formData = form.serialize();
+    $('.global-loader').show();
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: formData,
+        success: function (response) {
+            $('.global-loader').hide();
+            if(response.status==200){
+                $('.profile-response').html('<div class=\"alert alert-success\">Profile successfully updated!</div>');
+            }else{
+                $('.profile-response').html('<div class=\"alert alert-danger\">'+response.msg+'</div>');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+           $('.global-loader').hide();
+           alert(jqXHR.responseText);
+        }
+    });
+    return false;
+});", \yii\web\View::POS_END);
+
+$this->registerJs("$('#change-pass-form').on('beforeSubmit', function () {
+    var form = $(this);
+    var formData = form.serialize();
+    $('.global-loader').show();
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: formData,
+        success: function (response) {
+            $('.global-loader').hide();
+            $('#change-pass-form')[0].reset();
+            if(response.status==200){
+                $('.password-response').html('<div class=\"alert alert-success\">Password successfully updated!</div>');
+            }else{
+                $('.password-response').html('<div class=\"alert alert-danger\">'+response.msg+'</div>');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+           $('.global-loader').hide();
+           alert(jqXHR.responseText);
+        }
+    });
+    return false;
+});", \yii\web\View::POS_END);
