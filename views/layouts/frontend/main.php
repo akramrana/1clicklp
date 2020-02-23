@@ -42,18 +42,18 @@ FrontendAsset::register($this);
                         <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Create</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Email</a>
-                                <a class="dropdown-item" href="#">Landing page</a>
+                                <a class="dropdown-item" href="<?= Url::to(['site/category', 'id' => 1, 'title' => 'email']); ?>">Email</a>
+                                <a class="dropdown-item" href="<?= Url::to(['site/category', 'id' => 2, 'title' => 'landing-page']); ?>">Landing page</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Campaigns</a>
+                            <a class="nav-link" href="<?= Url::to(['site/campaign']); ?>">Campaigns</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Audience</a>
+                            <a class="nav-link" href="<?= Url::to(['site/audience']); ?>">Audience</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Reports</a>
+                            <a class="nav-link" href="<?= Url::to(['site/report']); ?>">Reports</a>
                         </li>
                         <?php
                     } else {
@@ -77,18 +77,18 @@ FrontendAsset::register($this);
                         ?>
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item dropdown active">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo Yii::$app->session['_1clickLpCustomerData']['first_name'].' '.Yii::$app->session['_1clickLpCustomerData']['last_name']; ?></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo Yii::$app->session['_1clickLpCustomerData']['first_name'] . ' ' . Yii::$app->session['_1clickLpCustomerData']['last_name']; ?></a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="<?= Url::to(['site/edit-profile']); ?>">Profile</a>
                                     <a class="dropdown-item" href="<?= Url::to(['site/my-account']); ?>">Account</a>
-                                    <a class="dropdown-item" href="#">Change plan</a>
-                                    <a class="dropdown-item" href="#">Notifications</a>
+                                    <a class="dropdown-item" href="<?= Url::to(['site/pricing']); ?>">Change plan</a>
+                                    <a class="dropdown-item" href="<?= Url::to(['site/notification']); ?>">Notifications</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= Url::to(['site/signout']); ?>">Log Out</a>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Support</a>
+                                <a class="nav-link" href="<?= Url::to(['site/support']); ?>">Support</a>
                             </li>
                         </ul>
                         <?php

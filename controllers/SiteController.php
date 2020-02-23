@@ -437,4 +437,51 @@ class SiteController extends Controller
         }
     }
 
+    public function actionAudience(){
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('audience');
+    }
+    
+    public function actionCampaign(){
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('campaign');
+    }
+    
+    public function actionReport(){
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('report');
+    }
+    
+    public function actionCategory(){
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('category');
+    }
+    
+    public function actionNotification(){
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('notification');
+    }
+    
+    public function actionSupport(){
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        return $this->render('support');
+    }
 }

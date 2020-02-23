@@ -27,12 +27,16 @@ $this->title = 'Signin';
                         ?>
                         
                         <?=
-                        $form->field($model, 'email')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Enter email'])->label(false)
+                        $form->field($model, 'email',[
+                            'template' => '{input}{error}',
+                        ])->textInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Enter email'])->label(false)
                         ?>
                         
                         
                         <?=
-                        $form->field($model, 'password')->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Password'])->label(false)
+                        $form->field($model, 'password',[
+                            'template' => '{input}{error}',
+                        ])->passwordInput(['maxlength' => true, 'class' => 'form-control', 'placeholder' => 'Password'])->label(false)
                         ?>
                         
                         <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary prpl_btn']) ?>

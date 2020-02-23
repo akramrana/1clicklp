@@ -7,19 +7,22 @@
  */
 
 namespace app\models;
+
 use Yii;
 use yii\base\Model;
+
 /**
  * Description of UserLoginForm
  *
  * @author akram
  */
-class UserLoginForm extends Model 
+class UserLoginForm extends Model
 {
+
     public $email;
     public $password;
     private $_user = false;
-    
+
     /**
      * @return array the validation rules.
      */
@@ -29,7 +32,7 @@ class UserLoginForm extends Model
             ['password', 'validatePassword'],
         ];
     }
-    
+
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
@@ -45,7 +48,7 @@ class UserLoginForm extends Model
             }
         }
     }
-    
+
     /**
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
@@ -53,13 +56,14 @@ class UserLoginForm extends Model
     public function login() {
         if ($this->validate()) {
             $user = $this->getUser();
+            \Yii::$app->session->set('_1clickLpCustomerLogin', 1);
             \Yii::$app->session->set('_1clickLpCustomerAuth', 1);
             \Yii::$app->session->set('_1clickLpCustomerData', $user);
             return true;
         }
         return false;
     }
-    
+
     /**
      * Finds user by [[username]]
      *
@@ -69,11 +73,11 @@ class UserLoginForm extends Model
         if ($this->_user === false) {
             $user = ClientUser::findByUsername($this->email);
             if (!empty($user)) {
-                \Yii::$app->session->set('_1clickLpCustomerLogin', 1);
                 $this->_user = $user;
             }
         }
 
         return $this->_user;
     }
+
 }
