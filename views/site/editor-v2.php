@@ -5,6 +5,11 @@ use app\assets\EditorAsset;
 
 EditorAsset::register($this);
 $this->title = 'Editor';
+$params = Yii::$app->request->queryParams;
+$template_id = '';
+if(!empty($params['id'])){
+    $template_id = $params['id'];
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -20,6 +25,7 @@ $this->title = 'Editor';
             var saveUrl = baseUrl+'site/save-template';
             var uploadUrl = baseUrl+'site/upload-img';
             var _csrf = '<?php echo Yii::$app->request->getCsrfToken() ?>';
+            var template_id = '<?php echo $template_id; ?>'
         </script>
         <?php $this->head() ?>
     </head>
@@ -715,7 +721,7 @@ $this->title = 'Editor';
         <div>
             <input name="{%=key%}" type="text" class="form-control"/>
 
-            <div class="form-control autocomplete-list" style="min=height: 150px; overflow: auto;">
+            <div class="form-control autocomplete-list" style="min-height: 150px; overflow: auto;">
                 <div id="featured-product43"><i class="la la-close"></i> MacBook
                     <input name="product[]" value="43" type="hidden">
                 </div>
@@ -761,7 +767,7 @@ $this->title = 'Editor';
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title text-primary"><i class="la la-lg la-comment"></i> VvvebJs</p>
+                    <p class="modal-title text-primary"><i class="la la-lg la-comment"></i> 1clicklp</p>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><small><i class="la la-close"></i></small></span>
                     </button>
@@ -782,8 +788,7 @@ $this->title = 'Editor';
     <?php
     $js = '$(document).ready(function ()
             {
-                
-                Vvveb.Builder.init("' . \yii\helpers\BaseUrl::home() . 'site/index", function () {
+                Vvveb.Builder.init("' . \yii\helpers\BaseUrl::home() . 'site/get-template?id='.$id.'", function () {
                     //load code after page is loaded here
                     Vvveb.Gui.init();
                 });
