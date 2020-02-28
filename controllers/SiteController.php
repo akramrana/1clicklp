@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\data\Pagination;
 
 define('MAX_FILE_LIMIT', 1024 * 1024 * 2);
 
@@ -124,8 +125,11 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionEditor() {
-        return $this->renderAjax('editor-v2');
+    public function actionEditor($id) {
+        $this->layout = 'frontend\main';
+        return $this->renderAjax('editor-v2', [
+                    'id' => $id
+        ]);
         //return $this->renderAjax('editor');
     }
 
@@ -136,16 +140,34 @@ class SiteController extends Controller
     }
 
     public function actionSaveTemplate() {
-        $model = new \app\models\TestTemplate();
         if (Yii::$app->request->post()) {
             $request = Yii::$app->request->bodyParams;
-            //debugPrint($request);exit;
-            $html = \yii\helpers\Html::encode($request['html']);
-            $model->html = $html;
-            if ($model->save()) {
-                return 'File saved successfully';
-            } else {
-                return 'Error saving file ' . $model->errors;
+            $template = \app\models\Templates::find()
+                    ->where(['is_deleted' => 0, 'is_active' => 1, 'template_id' => $request['template_id']])
+                    ->one();
+            if (!empty($template)) {
+                $model = \app\models\ClientTemplates::find()
+                        ->where(['client_id' => Yii::$app->session['_1clickLpCustomerData']['client_id']])
+                        ->andWhere(['template_id' => $template->template_id, 'is_deleted' => 0])
+                        ->one();
+                if (empty($model)) {
+                    $model = new \app\models\ClientTemplates();
+                    $model->client_id = Yii::$app->session['_1clickLpCustomerData']['client_id'];
+                    $model->created_at = date('Y-m-d H:i:s');
+                }
+                $model->updated_at = date('Y-m-d H:i:s');
+                $html = \yii\helpers\Html::encode($request['html']);
+                $model->raw_html_content = $html;
+                $model->name_en = $template->title_en;
+                $model->page_title_en = $template->sub_title_en;
+                $model->template_id = $template->template_id;
+                if ($model->save()) {
+                    return 'File saved successfully';
+                } else {
+                    return 'Error saving file ' . json_encode($model->errors);
+                }
+            }else{
+                return 'There was error processing your request.Please try again.';
             }
         }
     }
@@ -293,7 +315,7 @@ class SiteController extends Controller
                     return[
                         'status' => 200,
                     ];
-                }else{
+                } else {
                     return[
                         'status' => 500,
                         'msg' => 'E-mail/Phone already been taken!'
@@ -437,51 +459,85 @@ class SiteController extends Controller
         }
     }
 
-    public function actionAudience(){
+    public function actionAudience() {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
         $this->layout = 'frontend\main';
         return $this->render('audience');
     }
-    
-    public function actionCampaign(){
+
+    public function actionCampaign() {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
         $this->layout = 'frontend\main';
         return $this->render('campaign');
     }
-    
-    public function actionReport(){
+
+    public function actionReport() {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
         $this->layout = 'frontend\main';
         return $this->render('report');
     }
-    
-    public function actionCategory(){
+
+    public function actionCategory($id, $title = "") {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
         $this->layout = 'frontend\main';
-        return $this->render('category');
+        $query = \app\models\Templates::find()
+                ->where(['category_id' => $id, 'is_deleted' => 0, 'is_active' => 1])
+                ->orderBy(['template_id' => SORT_DESC]);
+        $countQuery = clone $query;
+        $pages = new Pagination([
+            'totalCount' => $countQuery->count(),
+            'pageSize' => 12,
+        ]);
+        $models = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();
+        $category = \app\models\Categories::findOne($id);
+        return $this->render('category', [
+                    'models' => $models,
+                    'pages' => $pages,
+                    'category' => $category,
+        ]);
     }
-    
-    public function actionNotification(){
+
+    public function actionGetTemplate($id) {
+        $clientTemplate = \app\models\ClientTemplates::find()
+                ->where(['client_id' => Yii::$app->session['_1clickLpCustomerData']['client_id']])
+                ->andWhere(['template_id' => $id, 'is_deleted' => 0])
+                ->one();
+        if (empty($clientTemplate)) {
+            $model = \app\models\Templates::find()
+                    ->where(['template_id' => $id, 'is_deleted' => 0, 'is_active' => 1])
+                    ->one();
+            $raw_html_content = \yii\helpers\Html::decode($model->raw_html_content);
+        } else {
+            $raw_html_content = \yii\helpers\Html::decode($clientTemplate->raw_html_content);
+        }
+
+        return $raw_html_content;
+    }
+
+    public function actionNotification() {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
         $this->layout = 'frontend\main';
         return $this->render('notification');
     }
-    
-    public function actionSupport(){
+
+    public function actionSupport() {
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
         $this->layout = 'frontend\main';
         return $this->render('support');
     }
+
 }
