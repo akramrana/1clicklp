@@ -25,7 +25,7 @@ $this->title = $category->name_en;
                                     <div class="card-body">
                                         <h5 class="card-title"><?= $row->title_en; ?></h5>
                                         <p class="card-text"><?= $row->sub_title_en; ?></p>
-                                         <a href="<?= Url::to(['site/editor','id' => $row->template_id]); ?>" class="btn btn-primary">Edit Template</a>
+                                         <a href="<?= Url::to(['site/editor','id' => $row->template_id]); ?>" class="btn btn-primary">Get Template</a>
                                     </div>
                                 </div>
                             </div>
