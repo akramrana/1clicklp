@@ -224,7 +224,12 @@ class SiteController extends Controller
 
     public function actionPricing() {
         $this->layout = 'frontend\main';
-        return $this->render('pricing');
+        $models = \app\models\Packages::find()
+                ->where(['is_active' => 1,'is_deleted' => 0, 'is_trial' => 0])
+                ->all();
+        return $this->render('pricing',[
+            'models' => $models
+        ]);
     }
 
     public function actionSignin() {
@@ -259,6 +264,31 @@ class SiteController extends Controller
             $model->password = Yii::$app->security->generatePasswordHash($password);
             $model->is_active = 1;
             if ($model->save()) {
+                $trialPackage = \app\models\Packages::find()
+                        ->where(['is_trial' => 1])
+                        ->one();
+                $today = new \DateTime(date('Y-m-d'));
+                $clientPackage = new \app\models\ClientPackages();
+                $clientPackage->client_id = $model->client_id;
+                $clientPackage->package_id = $trialPackage->package_id;
+                $clientPackage->package_number = rand(11111111,99999999);
+                $clientPackage->purchase_date = $today->format('Y-m-d');
+                $expiry_date = new \DateTime(date('Y-m-d'));
+                $expiry_date->modify('+'.$trialPackage->validity.' days');
+                $clientPackage->expiry_date = $expiry_date->format('Y-m-d');
+                $clientPackage->is_paid = 1;
+                $clientPackage->price = $trialPackage->price;
+                $clientPackage->max_templates = $trialPackage->max_templates;
+                $clientPackage->max_subscriber = $trialPackage->max_subscriber;
+                $clientPackage->max_email = $trialPackage->max_email;
+                $clientPackage->validity = $trialPackage->validity;
+                $clientPackage->created_at = date('Y-m-d H:i:s');
+                $clientPackage->updated_at = date('Y-m-d H:i:s');
+                if(!$clientPackage->save()){
+                    debugPrint($clientPackage->errors);
+                    exit;
+                }
+                
                 Yii::$app->session->setFlash('success', 'Registration successfully completed');
                 return $this->redirect(['site/signup']);
             } else {

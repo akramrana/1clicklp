@@ -42,7 +42,7 @@ class ClientPackages extends \yii\db\ActiveRecord
             [['client_id', 'package_id', 'is_paid', 'max_templates'], 'integer'],
             [['purchase_date', 'expiry_date', 'created_at', 'updated_at'], 'safe'],
             [['price'], 'number'],
-            [['package_number'], 'string', 'max' => 50],
+            //[['package_number'], 'string', 'max' => 50],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'client_id']],
             [['package_id'], 'exist', 'skipOnError' => true, 'targetClass' => Packages::className(), 'targetAttribute' => ['package_id' => 'package_id']],
         ];
