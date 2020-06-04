@@ -22,7 +22,7 @@ class FrontendAsset extends AssetBundle
         'css/main.css',
         'css/responsive.css',
         'font-awesome/css/font-awesome.min.css',
-        'https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,600,700,800,900&display=swap'
+//        'https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,600,700,800,900&display=swap'
     ];
     
     public $js = [

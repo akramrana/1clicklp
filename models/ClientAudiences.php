@@ -30,7 +30,8 @@ class ClientAudiences extends \yii\db\ActiveRecord
     {
         return [
             [['client_id', 'email'], 'required'],
-            [['client_id', 'email'], 'integer'],
+            [['client_id'], 'integer'],
+            ['email', 'email'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'client_id']],
         ];
     }

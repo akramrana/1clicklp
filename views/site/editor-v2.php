@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use app\assets\EditorAsset;
 
 EditorAsset::register($this);
-$this->title = 'Editor';
+$this->title = 'Edit Template';
 $params = Yii::$app->request->queryParams;
 $template_id = '';
-if(!empty($params['id'])){
+if (!empty($params['id'])) {
     $template_id = $params['id'];
 }
 ?>
@@ -22,10 +22,11 @@ if(!empty($params['id'])){
         <title><?= Html::encode($this->title) ?></title>
         <script type="text/javascript">
             var baseUrl = '<?php echo \yii\helpers\BaseUrl::home() ?>';
-            var saveUrl = baseUrl+'site/save-template';
-            var uploadUrl = baseUrl+'site/upload-img';
+            var saveUrl = baseUrl + 'site/save-template';
+            var uploadUrl = baseUrl + 'site/upload-img';
             var _csrf = '<?php echo Yii::$app->request->getCsrfToken() ?>';
-            var template_id = '<?php echo $template_id; ?>'
+            var template_id = '<?php echo $template_id; ?>';
+            var campaign_id = '<?php echo $model->client_campaign_id; ?>';
         </script>
         <?php $this->head() ?>
     </head>
@@ -49,33 +50,33 @@ if(!empty($params['id'])){
 
                 <div class="btn-group mr-3" role="group">
                     <button class="btn btn-light" title="Undo (Ctrl/Cmd + Z)" id="undo-btn" data-vvveb-action="undo" data-vvveb-shortcut="ctrl+z">
-                        <i class="la la-undo"></i>
+                        <i class="la la-undo"></i> Undo
                     </button>
 
                     <button class="btn btn-light"  title="Redo (Ctrl/Cmd + Shift + Z)" id="redo-btn" data-vvveb-action="redo" data-vvveb-shortcut="ctrl+shift+z">
-                        <i class="la la-undo la-flip-horizontal"></i>
+                        <i class="la la-undo la-flip-horizontal"></i> Redo
                     </button>
                 </div>
 
 
                 <div class="btn-group mr-3" role="group">
                     <button class="btn btn-light" title="Designer Mode (Free component dragging)" id="designer-mode-btn" data-toggle="button" aria-pressed="false" data-vvveb-action="setDesignerMode">
-                        <i class="la la-hand-grab-o"></i>
+                        <i class="la la-hand-grab-o"></i> Designer Mode
                     </button>
 
                     <button class="btn btn-light" title="Preview" id="preview-btn" type="button" data-toggle="button" aria-pressed="false" data-vvveb-action="preview">
-                        <i class="la la-eye"></i>
+                        <i class="la la-eye"></i> Preview
                     </button>
 
                     <button class="btn btn-light" title="Fullscreen (F11)" id="fullscreen-btn" data-toggle="button" aria-pressed="false" data-vvveb-action="fullscreen">
-                        <i class="la la-arrows"></i>
+                        <i class="la la-arrows"></i> Fullscreen
                     </button>
 
                 </div>
 
                 <div class="btn-group mr-3" role="group">
                     <button class="btn btn-light" title="Export (Ctrl + E)" id="save-btn" data-vvveb-action="saveAjax" data-vvveb-shortcut="ctrl+e">
-                        <i class="la la-save"></i>
+                        <i class="la la-save"></i> Publish 
                     </button>
                 </div>	
 
@@ -327,10 +328,10 @@ if(!empty($params['id'])){
                             <a class="nav-link" data-toggle="tab" href="#style-tab" role="tab" aria-controls="blocks" aria-selected="false">
                                 <i class="la la-lg la-image"></i> <div><span>Style</span></div></a>
                         </li>
-<!--                        <li class="nav-item advanced-tab">
-                            <a class="nav-link" data-toggle="tab" href="#advanced-tab" role="tab" aria-controls="blocks" aria-selected="false">
-                                <i class="la la-lg la-cog"></i> <div><span>Advanced</span></div></a>
-                        </li>-->
+                        <!--                        <li class="nav-item advanced-tab">
+                                                    <a class="nav-link" data-toggle="tab" href="#advanced-tab" role="tab" aria-controls="blocks" aria-selected="false">
+                                                        <i class="la la-lg la-cog"></i> <div><span>Advanced</span></div></a>
+                                                </li>-->
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="content-tab" data-section="content" role="tabpanel" aria-labelledby="content-tab">
@@ -783,12 +784,12 @@ if(!empty($params['id'])){
         </div>
     </div>
 
-    
+
 
     <?php
     $js = '$(document).ready(function ()
             {
-                Vvveb.Builder.init("' . \yii\helpers\BaseUrl::home() . 'site/get-template?id='.$id.'", function () {
+                Vvveb.Builder.init("' . \yii\helpers\BaseUrl::home() . 'site/get-template?id=' . $id . '", function () {
                     //load code after page is loaded here
                     Vvveb.Gui.init();
                 });

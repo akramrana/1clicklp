@@ -53,6 +53,12 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'create-campaign/<id\d+>/<title:[-a-zA-Z-0-9-.]+>' => 'site/create-campaign',
+                'campaign-step-two/<id\d+>' => 'site/campaign-step-two',
+                'choose-template/<id\d+>' => 'site/choose-template',
+                'editor/<id\d+>/<cid\d+>' => 'site/editor',
+                'confirmation/<id\d+>' => 'site/confirmation',
+                't/<unique_id\d+>' => 'site/view-template',
             ],
         ],
     ],

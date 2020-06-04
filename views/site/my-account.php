@@ -20,8 +20,8 @@ $package = \app\models\ClientPackages::find()
         ?>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="overview_box">
-                    <h4>Package Info</h4>
+                <div class="overview_box profile">
+                    <h2>Package Info</h2>
                     <h4><?= $package->package->name_en; ?></h4>
                     <p><?= $package->package->description_en; ?></p>
                     <p>Validity <?= $package->validity; ?> day(s)</p>

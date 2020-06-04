@@ -101,4 +101,17 @@ class AppHelper
         $list = ArrayHelper::map($model, 'client_campaign_type_id', 'name_en');
         return $list;
     }
+    
+    static function generateNextCampaignNumber(){
+        $cc = \app\models\ClientCampaigns::find()
+                ->select(['MAX(`campaign_number`) AS campaign_number'])
+                ->asArray()
+                ->one();
+
+        if (!empty($cc) && isset($cc['campaign_number']) && $cc['campaign_number'] != 0) {
+            return $cc['campaign_number'] + 1;
+        } else {
+            return 100000001;
+        }
+    }
 }

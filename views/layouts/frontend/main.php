@@ -42,8 +42,8 @@ FrontendAsset::register($this);
                         <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Create</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="<?= Url::to(['site/category', 'id' => 1, 'title' => 'email']); ?>">Email</a>
-                                <a class="dropdown-item" href="<?= Url::to(['site/category', 'id' => 2, 'title' => 'landing-page']); ?>">Landing page</a>
+                                <a class="dropdown-item" href="<?= Url::to(['site/create-campaign', 'id' => 1, 'title' => 'email']); ?>">Email</a>
+                                <a class="dropdown-item" href="<?= Url::to(['site/create-campaign', 'id' => 2, 'title' => 'landing-page']); ?>">Landing page</a>
                             </div>
                         </li>
                         <li class="nav-item">

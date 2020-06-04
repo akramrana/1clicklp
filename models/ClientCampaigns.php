@@ -41,7 +41,7 @@ class ClientCampaigns extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'campaign_name_en', 'client_campaign_type_id', 'client_template_id', 'created_at'], 'required'],
+            [['client_id', 'campaign_name_en', 'created_at', 'campaign_number'], 'required'],
             [['client_id', 'client_campaign_type_id', 'client_template_id', 'is_publish', 'is_active', 'is_deleted'], 'integer'],
             [['campaign_description_en'], 'string'],
             [['created_at', 'updated_at', 'published_at'], 'safe'],
