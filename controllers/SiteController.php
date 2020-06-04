@@ -125,10 +125,19 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionEditor($id) {
+    public function actionEditor($id, $cid) {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        $model = \app\models\ClientCampaigns::find()
+                ->where(['client_id' => $user->client_id, 'client_campaign_id' => $cid])
+                ->one();
         $this->layout = 'frontend\main';
         return $this->renderAjax('editor-v2', [
-                    'id' => $id
+                    'id' => $id,
+                    'model' => $model,
         ]);
         //return $this->renderAjax('editor');
     }
@@ -137,39 +146,6 @@ class SiteController extends Controller
         //sanitize, remove double dot .. and remove get parameters if any
         $fileName = __DIR__ . '/' . preg_replace('@\?.*$@', '', preg_replace('@\.{2,}@', '', preg_replace('@[^\/\\a-zA-Z0-9\-\._]@', '', $fileName)));
         return $fileName;
-    }
-
-    public function actionSaveTemplate() {
-        if (Yii::$app->request->post()) {
-            $request = Yii::$app->request->bodyParams;
-            $template = \app\models\Templates::find()
-                    ->where(['is_deleted' => 0, 'is_active' => 1, 'template_id' => $request['template_id']])
-                    ->one();
-            if (!empty($template)) {
-                $model = \app\models\ClientTemplates::find()
-                        ->where(['client_id' => Yii::$app->session['_1clickLpCustomerData']['client_id']])
-                        ->andWhere(['template_id' => $template->template_id, 'is_deleted' => 0])
-                        ->one();
-                if (empty($model)) {
-                    $model = new \app\models\ClientTemplates();
-                    $model->client_id = Yii::$app->session['_1clickLpCustomerData']['client_id'];
-                    $model->created_at = date('Y-m-d H:i:s');
-                }
-                $model->updated_at = date('Y-m-d H:i:s');
-                $html = \yii\helpers\Html::encode($request['html']);
-                $model->raw_html_content = $html;
-                $model->name_en = $template->title_en;
-                $model->page_title_en = $template->sub_title_en;
-                $model->template_id = $template->template_id;
-                if ($model->save()) {
-                    return 'File saved successfully';
-                } else {
-                    return 'Error saving file ' . json_encode($model->errors);
-                }
-            }else{
-                return 'There was error processing your request.Please try again.';
-            }
-        }
     }
 
     public function actionUploadImg() {
@@ -210,13 +186,6 @@ class SiteController extends Controller
         return '';
     }
 
-    public function actionViewTemplate($id) {
-        $model = \app\models\TestTemplate::findOne($id);
-        $html = \yii\helpers\Html::decode($model->html);
-
-        return $html;
-    }
-
     public function actionFeatures() {
         $this->layout = 'frontend\main';
         return $this->render('features');
@@ -225,10 +194,10 @@ class SiteController extends Controller
     public function actionPricing() {
         $this->layout = 'frontend\main';
         $models = \app\models\Packages::find()
-                ->where(['is_active' => 1,'is_deleted' => 0, 'is_trial' => 0])
+                ->where(['is_active' => 1, 'is_deleted' => 0, 'is_trial' => 0])
                 ->all();
-        return $this->render('pricing',[
-            'models' => $models
+        return $this->render('pricing', [
+                    'models' => $models
         ]);
     }
 
@@ -271,10 +240,10 @@ class SiteController extends Controller
                 $clientPackage = new \app\models\ClientPackages();
                 $clientPackage->client_id = $model->client_id;
                 $clientPackage->package_id = $trialPackage->package_id;
-                $clientPackage->package_number = rand(11111111,99999999);
+                $clientPackage->package_number = rand(11111111, 99999999);
                 $clientPackage->purchase_date = $today->format('Y-m-d');
                 $expiry_date = new \DateTime(date('Y-m-d'));
-                $expiry_date->modify('+'.$trialPackage->validity.' days');
+                $expiry_date->modify('+' . $trialPackage->validity . ' days');
                 $clientPackage->expiry_date = $expiry_date->format('Y-m-d');
                 $clientPackage->is_paid = 1;
                 $clientPackage->price = $trialPackage->price;
@@ -284,11 +253,11 @@ class SiteController extends Controller
                 $clientPackage->validity = $trialPackage->validity;
                 $clientPackage->created_at = date('Y-m-d H:i:s');
                 $clientPackage->updated_at = date('Y-m-d H:i:s');
-                if(!$clientPackage->save()){
+                if (!$clientPackage->save()) {
                     debugPrint($clientPackage->errors);
                     exit;
                 }
-                
+
                 Yii::$app->session->setFlash('success', 'Registration successfully completed');
                 return $this->redirect(['site/signup']);
             } else {
@@ -493,8 +462,23 @@ class SiteController extends Controller
         if (!Yii::$app->session['_1clickLpCustomerLogin']) {
             return $this->redirect(['site/signin']);
         }
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        $query = \app\models\ClientAudiences::find()
+                ->where(['client_id' => $user->client_id]);
+        $countQuery = clone $query;
+        $pages = new Pagination([
+            'totalCount' => $countQuery->count(),
+            'pageSize' => 24
+        ]);
+        $models = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->orderBy(['client_audience_id' => SORT_DESC])
+                ->all();
         $this->layout = 'frontend\main';
-        return $this->render('audience');
+        return $this->render('audience', [
+                    'models' => $models,
+                    'pages' => $pages,
+        ]);
     }
 
     public function actionCampaign() {
@@ -537,6 +521,17 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionCreateCampaign($id, $title = "") {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        $category = \app\models\Categories::findOne($id);
+        return $this->render('create-campaign', [
+                    'category' => $category,
+        ]);
+    }
+
     public function actionGetTemplate($id) {
         $clientTemplate = \app\models\ClientTemplates::find()
                 ->where(['client_id' => Yii::$app->session['_1clickLpCustomerData']['client_id']])
@@ -570,4 +565,222 @@ class SiteController extends Controller
         return $this->render('support');
     }
 
+    public function actionSaveAudience() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        if (Yii::$app->request->isAjax) {
+            $request = Yii::$app->request->bodyParams;
+            if (!empty($request['email'])) {
+                $audiences = explode(',', $request['email']);
+                $error = 0;
+                foreach ($audiences as $aud) {
+                    $ca = \app\models\ClientAudiences::find()
+                            ->where(['client_id' => $user->client_id, 'email' => $aud])
+                            ->one();
+                    if (empty($ca)) {
+                        $ca = new \app\models\ClientAudiences();
+                    }
+                    $ca->email = $aud;
+                    $ca->client_id = $user->client_id;
+                    if (!$ca->save()) {
+                        $error = 1;
+                        break;
+                    }
+                }
+                if ($error == 0) {
+                    return [
+                        'status' => 200,
+                        'msg' => 'Audiences saved successfully'
+                    ];
+                } else {
+                    return [
+                        'status' => 500,
+                        'msg' => 'Something went wrong while saving audiences.'
+                    ];
+                }
+            }
+        }
+    }
+
+    public function actionSaveCampaign() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        if (Yii::$app->request->isAjax) {
+            $request = Yii::$app->request->bodyParams;
+            $campaign = new \app\models\ClientCampaigns();
+            $campaign->campaign_name_en = $request['name'];
+            $campaign->campaign_description_en = !empty($request['description']) ? $request['description'] : "";
+            $campaign->created_at = date('Y-m-d H:i:s');
+            $campaign->client_id = $user->client_id;
+            $campaign->category_id = $request['category_id'];
+            $campaign->campaign_number = \app\helpers\AppHelper::generateNextCampaignNumber();
+            if ($campaign->save()) {
+                return [
+                    'status' => 200,
+                    'msg' => 'Campaign saved successfully',
+                    'id' => $campaign->client_campaign_id,
+                ];
+            } else {
+                return [
+                    'status' => 500,
+                    'msg' => $campaign->errors,
+                ];
+            }
+        }
+    }
+
+    public function actionCampaignStepTwo($id) {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        $model = \app\models\ClientCampaigns::find()
+                ->where(['client_id' => $user->client_id, 'client_campaign_id' => $id])
+                ->one();
+        return $this->render('campaign-step-two', [
+                    'model' => $model
+        ]);
+    }
+
+    public function actionUpdateCampaign() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        if (Yii::$app->request->isAjax) {
+            $request = Yii::$app->request->bodyParams;
+            $campaign = \app\models\ClientCampaigns::find()
+                    ->where(['client_id' => $user->client_id, 'client_campaign_id' => $request['id']])
+                    ->one();
+            $campaign->campaign_from_name = !empty($request['name']) ? $request['name'] : "";
+            $campaign->campaign_from_email = !empty($request['email']) ? $request['email'] : "";
+            $campaign->campaign_subject = !empty($request['subject']) ? $request['subject'] : "";
+            $campaign->updated_at = date('Y-m-d H:i:s');
+            if ($campaign->save()) {
+                return [
+                    'status' => 200,
+                    'msg' => 'Campaign updated successfully',
+                    'id' => $campaign->client_campaign_id,
+                ];
+            } else {
+                return [
+                    'status' => 500,
+                    'msg' => $campaign->errors,
+                ];
+            }
+        }
+    }
+
+    public function actionChooseTemplate($id) {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        $model = \app\models\ClientCampaigns::find()
+                ->where(['client_id' => $user->client_id, 'client_campaign_id' => $id])
+                ->one();
+        $query = \app\models\Templates::find()
+                ->where(['category_id' => $model->category_id, 'is_deleted' => 0, 'is_active' => 1])
+                ->orderBy(['template_id' => SORT_DESC]);
+        $countQuery = clone $query;
+        $pages = new Pagination([
+            'totalCount' => $countQuery->count(),
+            'pageSize' => 12,
+        ]);
+        $models = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();
+        return $this->render('choose-template', [
+                    'model' => $model,
+                    'models' => $models,
+                    'pages' => $pages,
+        ]);
+    }
+
+    public function actionSaveTemplate() {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        if (Yii::$app->request->post()) {
+            $request = Yii::$app->request->bodyParams;
+            $template = \app\models\Templates::find()
+                    ->where(['is_deleted' => 0, 'is_active' => 1, 'template_id' => $request['template_id']])
+                    ->one();
+            if (!empty($template)) {
+                $clientCampaigns = \app\models\ClientCampaigns::find()
+                        ->where(['client_id' => $user->client_id, 'client_campaign_id' => $request['campaign_id']])
+                        ->one();
+                $model = \app\models\ClientTemplates::find()
+                        ->where(['client_campaign_id' => $clientCampaigns->client_campaign_id])
+                        ->andWhere(['template_id' => $template->template_id, 'is_deleted' => 0])
+                        ->one();
+                if (empty($model)) {
+                    $model = new \app\models\ClientTemplates();
+                    $model->client_id = $user->client_id;
+                    $model->created_at = date('Y-m-d H:i:s');
+                }
+                $model->client_campaign_id = $clientCampaigns->client_campaign_id;
+                $model->updated_at = date('Y-m-d H:i:s');
+                $html = \yii\helpers\Html::encode($request['html']);
+                $model->raw_html_content = $html;
+                $model->name_en = $template->title_en;
+                $model->page_title_en = $template->sub_title_en;
+                $model->template_id = $template->template_id;
+                if ($model->save()) {
+                    $clientCampaigns->client_template_id = $model->client_template_id;
+                    $clientCampaigns->is_publish = 1;
+                    $clientCampaigns->is_active = 1;
+                    $clientCampaigns->published_at = date('Y-m-d H:i:s');
+                    $clientCampaigns->save();
+                    return json_encode([
+                        'id' => $clientCampaigns->client_campaign_id,
+                        'msg' => 'File saved successfully',
+                    ]);
+                } else {
+                    return 'Error saving file ' . json_encode($model->errors);
+                }
+            } else {
+                return 'There was error processing your request.Please try again.';
+            }
+        }
+    }
+    
+    public function actionConfirmation($id){
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $this->layout = 'frontend\main';
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        $model = \app\models\ClientCampaigns::find()
+                ->where(['client_id' => $user->client_id, 'client_campaign_id' => $id])
+                ->one();
+        return $this->render('confirmation', [
+                    'model' => $model,
+        ]);
+    }
+    
+    public function actionViewTemplate($unique_id) {
+        if (!Yii::$app->session['_1clickLpCustomerLogin']) {
+            return $this->redirect(['site/signin']);
+        }
+        $user = Yii::$app->session['_1clickLpCustomerData'];
+        $model = \app\models\ClientCampaigns::find()
+                ->where(['client_id' => $user->client_id, 'campaign_number' => $unique_id])
+                ->one();
+        $clientTemplate = \app\models\ClientTemplates::find()
+                ->where(['client_campaign_id' => $model->client_campaign_id])
+                ->one();
+        $html = \yii\helpers\Html::decode($clientTemplate->raw_html_content);
+        return $html;
+    }
 }
