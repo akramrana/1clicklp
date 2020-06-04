@@ -42,6 +42,77 @@ var site = {
                 console.log(jqXHR.responseText);
             })
         }
+    },
+    showAudienceModal: function () {
+        $("#audience-email").val("");
+        $("#aud-modal").modal("show");
+    },
+    saveAudiences: function () {
+        var emails = $("#audience-email").val();
+        if ($.trim(emails) != "") {
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "site/save-audience",
+                data: {
+                    email: emails,
+                    _csrf: _csrf
+                }
+            }).done((res) => {
+                $('#aud-response').html(res.msg);
+                if (res.status == 200) {
+                    $("#audience-email").val("");
+                    location.reload();
+                }
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseText);
+            })
+        }
+    },
+    createCampaign: function (category_id) {
+        var name = $("#campaign-name").val();
+        var description = $("#campaign-description").val();
+        if ($.trim(name) != "") {
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "site/save-campaign",
+                data: {
+                    name: name,
+                    description: description,
+                    category_id: category_id,
+                    _csrf: _csrf
+                }
+            }).done((res) => {
+                if (res.status == 200) {
+                    location.href = baseUrl+'campaign-step-two/'+res.id
+                }
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseText);
+            })
+        }
+    },
+    updateCampaign:function(id){
+        var from_name = $("#campaign-from-name").val();
+        var from_email = $("#campaign-from-email").val();
+        var subject = $("#campaign-subject").val();
+        if ($.trim(from_email) != "") {
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "site/update-campaign",
+                data: {
+                    name: from_name,
+                    email: from_email,
+                    subject: subject,
+                    id: id,
+                    _csrf: _csrf
+                }
+            }).done((res) => {
+                if (res.status == 200) {
+                    location.href = baseUrl+'choose-template/'+res.id
+                }
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseText);
+            })
+        }
     }
 }
 

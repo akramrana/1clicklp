@@ -1374,8 +1374,8 @@ Vvveb.Builder = {
             data["html"] = this.getHtml();
             data["_csrf"] = _csrf;
             data["template_id"] = template_id;
+            data["campaign_id"] = campaign_id;
         }
-
         $.ajax({
             type: "POST",
             url: saveUrl, //set your server side save script url
@@ -1495,11 +1495,11 @@ Vvveb.Gui = {
 
     //post html content through ajax to save to filesystem/db
     saveAjax: function () {
-
         var url = Vvveb.FileManager.getCurrentUrl();
-
         return Vvveb.Builder.saveAjax(url, null, function (data) {
-            $('#message-modal').modal().find(".modal-body").html("File saved at: " + data);
+            //$('#message-modal').modal().find(".modal-body").html("File saved at: " + data);
+            var obj = $.parseJSON(data);
+            location.href = baseUrl+'confirmation/'+obj.id
         });
     },
 

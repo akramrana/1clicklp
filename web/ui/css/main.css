@@ -691,3 +691,13 @@ font-weight: 600;
 #subscribe-newsletter-form .has-error input{
     color: red;
 }
+.card-img-top{
+    width: 250px;
+    height: 212px;
+}
+.card-sub-ttl{
+    height: 50px;
+}
+.pad-5{
+    padding: 5px;
+}
